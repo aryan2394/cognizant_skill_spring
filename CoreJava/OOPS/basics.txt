@@ -1,0 +1,48 @@
+OOP (Object-Oriented Programming) ek programming style hai jisme hum code ko real-world objects (jaise Student, Car, Bank Account, User) ke form mein organize karte hain.
+
+problem kya hai oops aaya hi kyon 
+
+maanlo aapke paas 1000 Student hai aap unka data kaise store karoge (uska naam,age,college,year,birth) and agar aap store kar liye bhi using variable toh aapko kaise pata hai ki kaise usko
+kaise store karoge 
+
+aur usko fet h kaise karoge 
+
+isliye hum oops ke through kya karte hai jaise sabhi ki toh property same hai like name,age and rollNo 
+toh kyon n ek container bana le jismein ye sab ho taaki hum particular student ka data asani se fet h kr sake
+
+objects:ek real world entity hai jaise student,car,bank account,user etc
+
+
+Class:
+
+Class ek blueprint ya template hoti hai jo object ke properties aur behaviors define karti hai.
+
+Object:
+
+Object class ka instance hota hai jo actual data aur behavior ko represent karta hai.
+
+Ek line mein yaad rakho
+
+Class design hai, Object us design se bani hui real cheez hai.
+
+Jab tak aap objects nahi banaoge tb tak koi memory use nahi hogi like class ek blueprint hai buss lekin jab tak ek realword enetity nahi hogi hai 
+jaise aapne bola student has these property lkein jab koi user hoga (like shriji,aryan) toh uski hi toh rpoerty hogi
+jaise ek real world user ka hi toh saara data hoga 
+
+toh memory allocate kab hogi ye tab hogi jab aap likhte ho 
+Student s1=new Student()
+toh ek new memory allocate huwi hai heap mein (saare objects ko heap mein hi store krte hai )
+matlab ek space part of container ka bana hai heap mein and wo s1 student ke paas hai toh ab saara data s1 ka name,age saare ussi jaagah mein rahega toh asb aasani se access ho jayega 
+
+toh kya s1 ek object hai nai wo ek refenece vraible hai uss object ko hold krne k liye (s1 is just a container to hold the object) 
+matlab new Student() ye heap mein bana hai toh ye ek object bana hai  lekin heap mein kisi cheez ka naam nahi hota hai 
+toh s1 ya jitne varible bante hai wo stack mein hote hai toh hum jo hai asani se access kar sakte hai using refenece variable
+
+toh jitne bhi object banate hai wo runtime mein bante hai jaise ki 
+
+do type ke hote hai ek compile type and runtime 
+
+compile time matlab pahle space allocate hoga (like int x=4)
+ pahle se store hoga tab run hoga 
+
+runtime matlab code chalne lagega tab ye saare code chalega
