@@ -1,0 +1,34 @@
+Java source code ko compiler Bytecode mein convert karta hai. Bytecode platform independent hota hai. Har operating system ke liye alag JVM available hoti hai jo same Bytecode ko apne platform ke machine code mein convert kar deti hai. Isliye Java mein "Write Once, Run Anywhere" possible hai.
+
+
+Difference beTween compiler and interpreter 
+
+dekho dono ka kaam hota hai kisi code ko machine code m convert karna buss dono alag alag method uske karte hai 
+
+
+Compiler is a program that translates the entire source code into machine code at once before execution.
+
+Interpreter is a program that translates and executes source code line by line during execution.
+
+so java is both a compiled and interpreted language
+
+source code -> compiler -> bytecode -> interpreter -> machine code 
+
+JVM:ye ek virtual machine hai jo ki bytecode ko convert karti hai into the machine code of that platform (using interpreter+jit compiler) 
+
+interpreter:har line ko execute karti rahegi and output aata rahega
+jit compiler:ye interpreter ko help karta hai performance boost krne k liye how jo most repated code hote hai wo jit compiler directly machine code m convert kr deta hai or 2nd time m direct machine code m run hota hai
+
+JVM security provide karti hai using Sandbox Model. Sandbox ek restricted environment hota hai jahan Java program ko limited permissions milti hain. JVM check karti hai ki program koi unsafe operation na kare, isliye Java programs zyada secure hote hain.
+
+JRE(Java Runtime environment):jaise jvm toh sirf bytecode ko machine code mein convert karta hai 
+lekin humein chahiye ki hum kuch screen mein print karein,file red write karein wo possible nahi hai using jvm
+
+it is a combination of jvm+libraries(scanner,inputStrem,String) etc 
+
+
+JDK(Java Development kit):ye ek toolkit hai jismein compiler,runtime environment(jvm+libaries),debugger (debugging 
+
+matlab ye poora kit jismein debugging ke tool hai compiler hai jo convert karega source code to bytecode +interpreter hai jo bytecode ko machine code m convert karega +library hai jo input/output function ko enable karegi 
+
+matlab
