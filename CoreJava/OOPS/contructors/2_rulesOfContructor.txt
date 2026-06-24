@@ -1,0 +1,62 @@
+Rules for Contructor 
+
+1: Name must be same as class 
+2:ye ek specila method hi hai lekin iska kpi return tyrpe nahi hota not even void also
+3:it is called when the object created
+4:it is used to initialize the object with default or parameterized values
+
+GIve raeson for all points 
+question:as ye ek function hai contructor jo ki aapne bataya special method hai contructor jo ki object call ke time 
+        hi execute ho jaata hai lekin method ko toh hum normally call krte hai na (method name() krke jb chahe tb call krlo )
+
+Solution:lekin humne toh contructor jo ki special method hai usko call hi nahi kiya toh wo chal kaise and default values assign kaise kiya 
+        matlab ek cheez jisko hum call hi nahi kar rahe hai toh wo exxecute kaise huwi 
+
+        aapne kya likha tha 
+        Student s1=new Student();
+        (where Student is a class s1 is a refenece variable which is ponting to the object new is a keyword used to allocate the memory dynamically in the object and Student() jo humne likha hai uske aage () ye likha hai iska matlab hi yahi hai ki hum iske class ke constructor ya special method ko call kar rahe hai )
+
+Default Contructor:lekin humne jo peechla code likha tha usmein toh humne buss 
+
+class Student{
+    String name;
+    int age;
+    int roll;
+    void print()
+    {
+        System.out.println(name);
+        System.out.println(age);
+        System.out.println(roll);
+    }
+    void markAttendance()
+    {
+        System.out.println(name + " has marked attendance");
+    }
+}
+
+ye likha tha koi constructor nahi likha tha lekin tab bhi hum yahi new likh rahe hai new Student()
+lekin contructor hai hi nahi toh yahi pe aata hai default contructor ka topic 
+
+matlab ki jab aap apne se contructor nahi banate ho toh runtime pe java khud se hi apne ek default contructor bana leta ahai 
+if you will not create it it will create the default constructor and default values assign kar deta hai 
+
+lekin default contructor ka ek nuksaaan hai ki ki wo har ek object ke liye same hi values de dega lekin humein toh chahiye ki user ki alaga alagavalues ho warna jab sabki values same hi rakhtni hai toh ye sab hum kar hi kyon rahe hai 
+
+
+Parameterized Contructor:ye wo contructor hota jismein hum apne se values pass karte hai jaise 
+
+Student s1=new Student(1,"Aryan",20)
+
+
+ab iska matlab kya hai ki hum buss constructor ko call nahi krke uske andr values ko pass kar rahe hai ab ye values kahan gayi ye hum next part mein dekhege 
+
+are ye normal hai ki jaise humne function call kiya hai and usko hum values deke paas kar rahe hai 
+
+like Student s1=new Student(1,"Aryan",20)
+and s1 class mein 
+Student(rn,n,a)
+{
+    roll=rn;
+    name=n;
+    age=a;
+} 
