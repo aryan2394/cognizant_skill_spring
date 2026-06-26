@@ -6,6 +6,5 @@ Student(String name,int age)
 {
     this.name=name;
     this.age=age;
-    this matlab s1 object ka refernce hai and uske andar s1.name mein value jayegi jo value aayi hai that is name 
-    
+    this matlab s1 object ka refernce hai and uske andar s1.name mein value jayegi jo value aayi hai that is name    
 }
