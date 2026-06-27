@@ -1,0 +1,113 @@
+Real Life Example 🏦
+
+Maan lo tumhare paas ek Bank Account hai.
+
+Tumhare account me ₹50,000 hain.
+
+Kya bank tumhe ye allow karega?
+
+account.balance = -100000;
+
+❌ Nahi.
+
+Ya
+
+account.balance = 100000000;
+
+❌ Nahi.
+
+Balance ko directly change karna dangerous hai.
+
+Isliye bank kya karta hai?
+
+Deposit karna hai → deposit()
+Withdraw karna hai → withdraw()
+Balance dekhna hai → getBalance()
+
+Matlab data ko hide kiya aur sirf controlled methods diye.
+
+Isi concept ko Encapsulation kehte hain.
+
+Definition (Easy Language)
+
+Encapsulation means data (variables) aur methods ko ek hi class ke andar wrap (bundle) karna aur data ko direct access se hide karke methods ke through access dena.
+
+Simple words me:
+
+Data ko protect karna aur usko access karne ka controlled tareeka dena hi Encapsulation hai.
+
+Without Encapsulation ❌
+class Student {
+
+    String name;
+    int age;
+
+}
+public class Demo {
+
+    public static void main(String[] args) {
+
+        Student s = new Student();
+
+        s.name = "Aryan";
+        s.age = -50;   // Invalid
+
+    }
+
+}
+
+Problem:
+
+Koi bhi age ko
+
+-50
+
+kar sakta hai.
+
+Data unsafe hai.
+
+With Encapsulation ✅
+class Student {
+
+    private String name;
+    private int age;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+
+        if (age >= 0) {
+            this.age = age;
+        }
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+}
+
+Use
+
+public class Demo {
+
+    public static void main(String[] args) {
+
+        Student s = new Student();
+
+        s.setName("Aryan");
+        s.setAge(20);
+
+        System.out.println(s.getName());
+        System.out.println(s.getAge());
+
+    }
+
+}
