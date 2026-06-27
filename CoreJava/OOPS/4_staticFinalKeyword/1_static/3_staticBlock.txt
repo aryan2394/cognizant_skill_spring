@@ -1,0 +1,87 @@
+tatic Block - Why We Need It?
+
+Maan lo hamare paas ek Student class hai.
+
+class Student {
+
+    static String college;
+
+}
+
+Ab sawal aata hai ki
+
+college ki value kab aur kaise assign hogi?
+
+Object variables ko to hum object bana kar assign kar dete hain.
+
+Student s1 = new Student();
+
+s1.name = "Aryan";
+s1.age = 20;
+s1.rollNo = 101;
+
+Lekin college ek static variable hai.
+
+Ye kisi ek object ki property nahi hai.
+
+Ye poori class ki property hai.
+
+Toh iske liye object banana hi nahi chahiye.
+
+Agar sirf ek value assign karni ho
+class Student {
+
+    static String college = "IIT Guwahati";
+
+}
+
+Ye bilkul sahi hai.
+
+Lekin maan lo multiple static variables hain.
+
+class Student {
+
+    static String college;
+    static String university;
+    static int totalSemesters;
+
+}
+
+Ab in sabko initialize karna hai.
+
+Tab hum Static Block use karte hain.
+
+Static Block
+class Student {
+
+    static String college;
+    static String university;
+    static int totalSemesters;
+
+    static {
+
+        college = "IIT Guwahati";
+        university = "IIT System";
+        totalSemesters = 8;
+
+    }
+
+}
+
+Iska Fayda
+
+Jaise hi JVM Student class ko load karegi,
+
+Static Block automatically execute ho jayega.
+
+Aur
+
+college = "IIT Guwahati"
+
+university = "IIT System"
+
+totalSemesters = 8
+
+ek hi baar initialize ho jayenge.
+
+Iske liye kisi object ki zarurat nahi padegi.

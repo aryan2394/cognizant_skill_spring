@@ -1,0 +1,40 @@
+why our main() is static 
+
+
+public class Demo {
+
+    public static void main(String args[]) {
+
+        System.out.println("Hello World");
+
+    }
+
+}
+
+// Socha
+
+Ye static kyon hai?
+
+Kyunki
+
+public static void main
+
+JVM ko
+
+kisi object ke bina chahiye.
+
+JVM jab program start karti hai,
+
+abhi tak
+
+Demo obj = new Demo();
+
+bana hi nahi hai.
+
+Toh
+
+main() ko object ke bina hi chalna padega.
+
+Isi liye
+
+static

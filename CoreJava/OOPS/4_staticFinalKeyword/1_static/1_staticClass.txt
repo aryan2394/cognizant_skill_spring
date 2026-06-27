@@ -1,0 +1,339 @@
+Scenerio samjho 
+
+Static Keyword (Why Static Came?)
+Problem Statement
+
+Maan lo hamare paas ek Student class hai.
+
+class Student {
+
+    String name;
+    int age;
+    int rollNo;
+    String college;
+
+}
+
+Ab maan lo IIT Guwahati mein 100 students hain.
+
+Student s1 = new Student();
+Student s2 = new Student();
+Student s3 = new Student();
+.
+.
+.
+Student s100 = new Student();
+
+Har object ka apna
+
+name
+age
+rollNo
+
+alag hoga.
+
+Lekin
+
+college = "IIT Guwahati"
+
+sabke liye same hoga.
+
+Without Static
+
+Memory
+
+Heap
+
+Student 1
+
+name
+age
+rollNo
+college ------> "IIT Guwahati"
+
+----------------------------
+
+Student 2
+
+name
+age
+rollNo
+college ------> "IIT Guwahati"
+
+----------------------------
+
+Student 3
+
+name
+age
+rollNo
+college ------> "IIT Guwahati"
+
+----------------------------
+
+.
+.
+.
+
+Student 100
+
+name
+age
+rollNo
+college ------> "IIT Guwahati"
+
+Ab dhyan do.
+
+Har object ke andar
+
+String college;
+
+hai.
+
+String reference maan lo
+
+4 bytes
+
+(32-bit JVM)
+
+Toh
+
+100 Students
+
+100 × 4 = 400 bytes
+
+Sirf references ke liye.
+
+Aur 64-bit JVM mein
+
+100 × 8 = 800 bytes
+
+Reference ki memory.
+
+Ye unnecessary hai.
+
+Sochne wali baat
+
+College kiski property hai?
+
+Student ki?
+
+❌ Nahi.
+
+College har student ka same hai.
+
+Matlab
+
+College kisi individual object ki property nahi hai.
+
+College poori class ki property hai.
+
+Yaani
+
+College belongs to Student Class
+
+NOT
+
+College belongs to Student Object
+
+Isi problem ko solve karne ke liye
+
+Java ne
+
+Static Keyword
+
+introduce kiya.
+
+Using Static
+class Student {
+
+    String name;
+    int age;
+    int rollNo;
+
+    static String college = "IIT Guwahati";
+
+}
+
+Ab
+
+Student s1 = new Student();
+Student s2 = new Student();
+Student s3 = new Student();
+
+Memory
+
+Method Area (Class Area)
+
+Student Class
+
+college -----> "IIT Guwahati"
+
+
+
+
+Heap
+
+Student 1
+
+name
+age
+rollNo
+
+------------------
+
+Student 2
+
+name
+age
+rollNo
+
+------------------
+
+Student 3
+
+name
+age
+rollNo
+
+Notice
+
+College ab object ke andar nahi hai.
+
+Sirf ek baar store hua hai.
+
+Sab objects usi ko use karenge.
+
+Memory Comparison
+
+Without Static
+
+Student1
+
+name
+age
+roll
+college
+
+Student2
+
+name
+age
+roll
+college
+
+Student3
+
+name
+age
+roll
+college
+
+College reference
+
+3 baar
+
+With Static
+
+Student1
+
+name
+age
+roll
+
+Student2
+
+name
+age
+roll
+
+Student3
+
+name
+age
+roll
+
+
+Method Area
+
+college = IIT Guwahati
+
+College
+
+Sirf 1 baar
+Accessing Static Variable
+
+Wrong (although Java allows it)
+
+s1.college = "IIT Guwahati";
+
+Preferred
+
+Student.college = "IIT Guwahati";
+
+Kyun?
+
+Kyuki
+
+College class ka variable hai.
+
+Object ka nahi.
+Example
+class Student {
+
+    String name;
+    int age;
+    int rollNo;
+
+    static String college = "IIT Guwahati";
+}
+
+public class Demo {
+
+    public static void main(String args[]) {
+
+        Student s1 = new Student();
+        Student s2 = new Student();
+
+        s1.name = "Aryan";
+        s2.name = "Rahul";
+
+        System.out.println(Student.college);
+
+    }
+
+}
+
+Output
+
+IIT Guwahati
+Agar College Change Kare
+Student.college = "IIT Delhi";
+
+Ab
+
+System.out.println(s1.college);
+System.out.println(s2.college);
+
+Output
+
+IIT Delhi
+IIT Delhi
+
+Dono ka change ho gaya.
+
+Kyun?
+
+Kyuki
+
+College ki sirf
+
+Ek copy
+
+hai.
+
+Static Variable Kahan Store Hota Hai?
+Variable	Memory
+Local Variable	Stack
+Instance Variable	Heap
+Static Variable	Method Area (Metaspace/Class Area)
