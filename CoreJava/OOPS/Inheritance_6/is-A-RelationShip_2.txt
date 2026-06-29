@@ -1,0 +1,27 @@
+jo class inherit karti hai wo is a relationship ko hold karti hai kaise 
+
+
+jaise class vehicle se child class car inherit karti hai toh car IS-A-RELATIONSHIP holds karti hai 
+
+because har car ek vehicle (car is a vehicle but not every evhicle is a car because vehicle can be truck,buss also)
+
+or 
+
+class Person{
+    String name;
+    int age;
+}
+class Student extends Person{
+
+}
+student is a person but person is not student (har student ek person hoga lekin har person ek student nahi ho sakta hai kyoki person koi aur bhi ho sakta hai)
+
+class Teacher extends Person{
+    
+}
+teacher is a person but person is not teacher
+ 
+class Car extends Vehicle{
+
+}
+car is a vehicle but vehicle is not a car

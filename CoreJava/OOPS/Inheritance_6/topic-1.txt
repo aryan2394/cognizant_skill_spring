@@ -1,0 +1,309 @@
+Inheritance (Sabse Easy Explanation)
+Sabse Pehle Question
+Java ne Inheritance banaya hi kyon?
+
+Maan lo tum ek college software bana rahe ho.
+
+Tumne ek Student class banayi.
+
+class Student {
+
+    String name;
+    int age;
+
+    void study() {
+        System.out.println("Studying...");
+    }
+
+}
+
+Ab college me Teacher bhi hai.
+
+Teacher ke paas bhi
+
+Name
+Age
+
+hote hain.
+
+Toh tumne Teacher class banayi.
+
+class Teacher {
+
+    String name;
+    int age;
+
+    void teach() {
+        System.out.println("Teaching...");
+    }
+
+}
+Problem
+
+Dhyan se dekho.
+
+String name;
+int age;
+
+Ye dono classes me same hain.
+
+Ab Principal class banayi.
+
+class Principal {
+
+    String name;
+    int age;
+
+}
+
+Phir Accountant.
+
+class Accountant {
+
+    String name;
+    int age;
+
+}
+
+Ab har class me
+
+name
+age
+
+baar baar likhna pad raha hai.
+
+Ye kya kehlata hai?
+
+Code Duplication
+Student
+
+↓
+
+name
+age
+
+Teacher
+
+↓
+
+name
+age
+
+Principal
+
+↓
+
+name
+age
+
+Accountant
+
+↓
+
+name
+age
+
+Same code 100 jagah.
+
+Ye achhi programming nahi hai.
+
+Java ne Solution diya
+
+Ek Parent Class bana do.
+
+class Person {
+
+    String name;
+    int age;
+
+}
+
+Ab
+
+Student
+
+Teacher
+
+Principal
+
+sab Person hi to hain.
+
+Toh Java ne bola
+
+"Jo common cheezein hain unhe parent me daal do."
+
+Ab Dekho
+class Person {
+
+    String name;
+    int age;
+
+}
+
+Student
+
+class Student extends Person {
+
+    void study() {
+
+        System.out.println("Studying");
+
+    }
+
+}
+
+Teacher
+
+class Teacher extends Person {
+
+    void teach() {
+
+        System.out.println("Teaching");
+
+    }
+
+}
+
+Ab
+
+Student ke paas automatically
+
+✔ name
+
+✔ age
+
+aa gaye.
+
+Teacher ke paas bhi.
+
+Repeat karne ki zarurat nahi.
+
+"extends" Ka Matlab
+class Student extends Person
+
+Matlab
+
+Student, Person ki properties aur methods inherit karega.
+
+Ya
+
+Student
+
+IS-A
+
+Person.
+
+Real Life Example
+
+Socho
+
+Person
+
+ke paas
+
+Name
+
+Age
+
+Gender
+
+hai.
+
+Ab
+
+Student bhi Person hai.
+
+Teacher bhi Person hai.
+
+Doctor bhi Person hai.
+
+Engineer bhi Person hai.
+
+Sabko
+
+Name
+
+Age
+
+Gender
+
+chahiye.
+
+Toh ek hi jagah likho.
+
+Memory Diagram
+Student s = new Student();
+
+Memory
+
+STACK
+
+s
+|
+|
+↓
+
+HEAP
+
+------------------------
+Person Part
+
+name
+age
+
+------------------------
+
+Student Part
+
+study()
+
+------------------------
+
+Student object ke andar
+
+Person ka data bhi hota hai.
+
+Example
+class Person {
+
+    String name="Aryan";
+
+}
+class Student extends Person {
+
+}
+public class Demo {
+
+    public static void main(String args[]) {
+
+        Student s=new Student();
+
+        System.out.println(s.name);
+
+    }
+
+}
+
+Output
+
+Aryan
+
+Question
+
+Humne
+
+Student class me
+
+name
+
+likha hi nahi.
+
+Phir bhi output aa gaya.
+
+Kyun?
+
+Kyuki
+
+Student ne
+
+Person ko inherit kiya hai.

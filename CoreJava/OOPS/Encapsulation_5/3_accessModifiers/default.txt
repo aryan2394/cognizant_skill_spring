@@ -1,0 +1,117 @@
+Step 1: Package Kya Hota Hai?
+
+Package ko ek folder samajh lo.
+
+Jaise Windows me folders hote hain.
+
+Project
+
+│
+
+├── college (Folder/Package)
+
+│      ├── Student.java
+│      ├── Teacher.java
+│      └── Demo.java
+
+│
+
+└── school (Folder/Package)
+
+       └── Principal.java
+
+Yahan
+
+college ek package hai.
+school doosra package hai.
+Step 2: private Yaad Hai?
+class Student {
+
+    private int age = 20;
+
+}
+
+Ab
+
+Student s = new Student();
+
+System.out.println(s.age);
+
+❌ Error.
+
+Chahe Demo.java usi folder me ho.
+
+Chahe same package me ho.
+
+private = Sirf meri class.
+
+Step 3: Ab Default Dekho
+class Student {
+
+    int age = 20;
+
+}
+
+Notice
+
+Humne kuch bhi nahi likha.
+
+Na
+
+private
+
+Na
+
+public
+
+Na
+
+protected
+
+Toh Java bolti hai
+
+Theek hai, main isko default bana deti hoon.
+
+Same Package Example
+
+Maan lo
+
+college
+
+│
+
+├── Student.java
+├── Teacher.java
+└── Demo.java
+
+Student.java
+
+class Student {
+
+    int age = 20;
+
+}
+
+Demo.java
+
+public class Demo {
+
+    public static void main(String args[]) {
+
+        Student s = new Student();
+
+        System.out.println(s.age);
+
+    }
+
+}
+
+Output
+
+20
+
+✔ Allowed
+
+Kyun?
+
+Dono same package me hain.

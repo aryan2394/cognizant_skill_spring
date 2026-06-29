@@ -1,0 +1,5 @@
+matlab important ya properties ya fayda of inheritenec 
+
+1:code reusability
+2:easy maintenance
+3:and we can achieve polymorphism by inherietenec only 
