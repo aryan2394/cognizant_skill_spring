@@ -1,0 +1,63 @@
+dekho jab hum subclasses banake parent class ko overide karte hai uske method wo hum kar sakte hai by abstarction
+
+1:static methods :ko overide karenge toh kya hoga:
+
+sabse pahle understaning the static matlab isko class se matlab hai object se nahi 
+
+class Car{
+    static void fnc()
+    {
+        System.out.println("class");
+    }
+}
+
+class ElectricCar extends Car{
+    static void fnc()
+    {
+        System.out.println("subclass");
+    }
+}
+
+class Main{
+    public static void main(String[] args)
+    {
+        Car c=new ElectricCar();
+        c.fnc();
+        // output:class
+        //why because static methods are bind to the class not to object 
+        // matlab ab jitne class ko inehrit karke overide kardo lekin jo fnc hai wo class function hai usse object se matalab nahi hai wo hamesha answer according to the class dega 
+
+    }
+}
+
+2:private methods:private ka matlab kya hota hai ki wo sirf ussi same class mein hi use hoga agar aap chahte ho dusre class mein toh bhi wo override hi nahi hoga beacise private means accessible to only that class not elseeher not subclasses also
+
+//matlab private method ko subclass mein override nahi kar sakte 
+
+class Car{
+    private void fnc()
+    {
+        System.out.println("class");
+    }
+}
+
+class ElectricCar extends Car{
+    private void fnc()
+    {
+        System.out.println("subclass");
+    }
+}
+
+class Main{
+    public static void main(String[] args)
+    {
+        Car c=new ElectricCar();
+        c.fnc();
+        // output:error private method are not visible to subclass also
+        //why 
+        
+    }
+}
+
+3:final methods also same wo overide hi nahi hoge :because iska matlab hi hota hai ki jo change n ho toh aapne subclass mein change kar hi nahi sakte 
+

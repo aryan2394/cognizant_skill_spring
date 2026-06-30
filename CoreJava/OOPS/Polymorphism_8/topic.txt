@@ -1,0 +1,46 @@
+Polymorphism:many forms matlab har real life objects has exist in differnt forms 
+
+understaning the first problem:when same object behaves diffenrlty with same commands on changing one of the parameters
+
+jaise real world mein if a person 
+
+run()
+{
+    runs on 2 km/hr
+}
+
+//lekin agar wahi uske peeche dog daudne lage then uski speed badh jayegi matlab 
+same hi object that is person beahves diffenrlty on differnt conditons 
+//jab wo normal tha then runnign on the speed of 2 km/hr and when dog than runnign on the speed of 4
+//yahan wo differnt forms mein exist karaha that is why polymorphism 
+run()
+{
+    runs on 4 km/hr
+}
+
+this is method overloading or compile time polmorphism:
+//in this we have same method name but with diffrent parameters 
+//here Java Virtual machine decide that which method needs to be executed
+//based on the parameters passed 
+
+compile time matlab hai ki jab aap run() ya run(boolean isDog) call karoge toh wo compile time pe hi uske pata chal jayega ki wo kaun sa function chalega if parmeter given than second method and agar no paarameter then first method 
+
+
+
+2:case scenerio :jab aisa maanlo ki saare ab function same hai usmein arguements hai wo bhi same 
+    but ab alaga alaga objects hai and wo same hi object ko call karte hai 
+
+    jaise bird ,human and tiger sab ke paas run () hoga lekin usko define karne ka traeeka alag hoga 
+    //bird run() ->wings ka use karke urr rha or 20 km/hr ke speed se 
+    //human run() ->leg ka use karke fly kar rha or 4 km/hr ke speed se 
+    //tiger run() ->leg ka use karke fly kar rha or 40 km/hr ke speed se 
+
+    //or ismein yahi hai 
+
+isko hum implement karte hai method overiding ke through these is run time polymorphism
+
+bacuse Object o=new Bird() or Object o=new Human() or Object o=new Tiger() ho sakta hai yahan 
+
+toh ye runtime pe pata chalega ki kaun si method call hogi 
+
+ye baisaccly hum karte hai bastarct clases ke through wahi hai ye 
