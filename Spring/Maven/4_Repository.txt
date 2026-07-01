@@ -1,0 +1,13 @@
+jaise aapne depenecency mein likha ki mujhe springboot ya sql connector ko donload karna hai in java 
+
+toh wo bolega jaise aapne depenecy mein toh likha hai uska groupId, artifactId and version lekin ab maven ko reolaod karne pe ya mvn package jaise
+npm i likhte the toh wo bolega ki theek hai mujhe download karna hai ki lekin kaha se download karu mein 
+
+1:Central Repository:jaise npm ek poora market tha n jsimein saare node moduels rahte the ussi tarah ye 
+java ka market hai jsiemin saare java ke jar files hote hai  taaki aap donload kar sako 
+
+2:Local:Central se donload karne pe ye automatically aapke computer ke ek folder me save ho jaate hai 
+
+//ye file downlaod ho jaati hai humare system pe .r2/repsotiores naam ke folder mein taaki baad mein downlaod karna pade then we can downlaod it 
+
+// fisrt jab bhi maven dependencies downlaod karne jaata hai toh wo check karat hai ki agar local mein wo hai toh waha se downlaod kar dega kyonki wo fast downlaod ho jayea else go to Central repository to download that .jar file
