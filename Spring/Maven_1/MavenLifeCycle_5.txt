@@ -28,3 +28,10 @@ matlab ki if you are runnign the 4th step then also automatically fisrt three st
 5. verify::dekho ismein hum integaration testing karte and usse important hum code quality check karte hai 
 jaise ki aisa kahi toh nahi hai humne koi variable galati se use toh nahi kar diya jisko declare hi nahi kiya and uske sath sath hum 
 code quality bhi check karte hai jaise ki kisi ne 
+
+6:install:ismein hum jo bhi jar file bani thi package ke time pe wo humare local folder mein chali jaati hai .m2/repository mein 
+
+7:deploy:iska matlab ye hai nahi ki ab hum github pe deploy kar denge ya render pe deploy iska matlab jaise ki humari jo bhi organization hogi usmein hum ye jar file bhi deploy kar denge taaki saare log isko use kar paaye 
+
+2:lets undesrtand now the clean Lifecycle :iska matlab hai ki jab hum compile ya package ko chalate hai toh target wala mein ban jaata hai wo sab sab clean ho jayega matlab purana build delete hoke neeche se and nay compile karke de dega 
+
