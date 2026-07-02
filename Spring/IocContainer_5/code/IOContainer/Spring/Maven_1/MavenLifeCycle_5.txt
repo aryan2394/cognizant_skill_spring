@@ -1,0 +1,37 @@
+Life Cycle
+
+1. Clean Lifecycle (clean)
+
+2. Default Lifecycle
+validate → compile → test → package → verify → install → deploy
+
+3. Site Lifecycle (site)
+
+Clean Lifecycle → Cleans/deletes previous build files.
+Default Lifecycle → Builds your project from validation to deployment.
+Site Lifecycle → Generates project documentation (project reports, JavaDocs, etc.).
+
+
+lets undesrtand the main that we use in our jav projects also daily 
+
+Default Lifecycle:(sabse important baat ki ye sab line se hi kaam karte hai matlab ki gar aapne test kiya hai toh pahle wo validate hoke then compile hoga hi then only wo test hoga )
+matlab ki if you are runnign the 4th step then also automatically fisrt three steps will be running 
+
+1. validate → Ensure the project structure is correct.(matlab ki .pom.xml is raedable or not saari dependencies likhi hai ki nahi and sab version sahi hai ki nahi tabhi wo go karega next stage par)
+
+2. compile → Compile the source code.(saare .java files ko .class file mein convert karega ye and target mein save kar dega jaise humar src ka folder structure Bilkul same)
+
+3. test → Run unit tests.(agar humne koi test class likhi hai toh usko run karega ye)
+
+4. package → Package compiled code into JAR/WAR. (is pahse ka matlab hai ki yaha pe ye .jar file jo humne abhi project likha hai usko karega and ye bhi target mein hi jayega same as compile  )
+
+5. verify::dekho ismein hum integaration testing karte and usse important hum code quality check karte hai 
+jaise ki aisa kahi toh nahi hai humne koi variable galati se use toh nahi kar diya jisko declare hi nahi kiya and uske sath sath hum 
+code quality bhi check karte hai jaise ki kisi ne 
+
+6:install:ismein hum jo bhi jar file bani thi package ke time pe wo humare local folder mein chali jaati hai .m2/repository mein 
+
+7:deploy:iska matlab ye hai nahi ki ab hum github pe deploy kar denge ya render pe deploy iska matlab jaise ki humari jo bhi organization hogi usmein hum ye jar file bhi deploy kar denge taaki saare log isko use kar paaye 
+
+2:lets undesrtand now the clean Lifecycle :iska matlab hai ki jab hum compile ya package ko chalate hai toh target wala mein ban jaata hai wo sab sab clean ho jayega matlab purana build delete hoke neeche se and nay compile karke de dega 
+
