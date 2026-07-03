@@ -15,7 +15,13 @@ Site Lifecycle → Generates project documentation (project reports, JavaDocs, e
 lets undesrtand the main that we use in our jav projects also daily 
 
 Default Lifecycle:(sabse important baat ki ye sab line se hi kaam karte hai matlab ki gar aapne test kiya hai toh pahle wo validate hoke then compile hoga hi then only wo test hoga )
+
+VERY VERY IMPORTANT::::......
+
+
 matlab ki if you are runnign the 4th step then also automatically fisrt three steps will be running 
+
+
 
 1. validate → Ensure the project structure is correct.(matlab ki .pom.xml is raedable or not saari dependencies likhi hai ki nahi and sab version sahi hai ki nahi tabhi wo go karega next stage par)
 

@@ -48,7 +48,7 @@ toh ab hum iska solution kya nikal sakte hai toh ab hum ek
 dusri problem ye hai ki humein har cheez jo hai interface ke flow mein banana chahiye kyon ki agar humne aur bhi notifaction tareeka laaya jaise smsnotifaction ya popUp notifaction ya whatsapp notifaction ab aapka ek ki noitfication ethod same hai and repeated hai toh aap isko interface mein bana do and baaki class jo bhi isko implement karegi wo isko use kar legi 
 
 
-Dependency Inversion:
+Dependency Injection:
 
 Agar ek class ko dusri class ki functionality use karni hai, to us class ka object khud new karke create nahi karna chahiye. 
 Object kisi aur se receive karna chahiye (constructor, setter ya Spring Container ke through). 
