@@ -1,0 +1,134 @@
+   static void main() {
+        ApplicationContext context=new AnnotationConfigApplicationContext(AppConfig.class);
+        OrderService order1=context.getBean(OrderService.class);
+        OrderService order2=context.getBean(OrderService.class);
+        OrderService order3=context.getBean(OrderService.class);
+
+//        output is :
+//        new order object created
+//        matlab sirf ek baar object bana agar teen object bante toh teen baar new order placed print hota matlab ki
+//        ioc container ne kya kiya hai order1,order2,order3 ko ek hi object ko point kar diya hai iska exmaple you can see
+        System.out.println(order1==order2);
+//        matlab if order1 address=order2 matlab dono objects same ko hi point kar rahe hai
+//        Output is:true
+
+//        aur agar aap multiple class jaise class A and B sab mein inject bhi karoge oth same hi object(bean) inject hoga sabmein kyonki bana hi ek hai toh jayega bhi toh ek hi
+        
+    }
+
+
+    OrderService class:
+
+    @Component
+public class OrderService {
+    public OrderService()
+    {
+        System.out.println("new order object created");
+    }
+    public void placeOrder()
+    {
+        System.out.println("order placed");
+    }
+
+}
+
+
+THese is bean scope:
+ki bean kitne banange 
+
+1:Singeleton:by default ek hi bean banata hai iske liye aapko batane ki jarrorat nahi hai ioc container ko ki ek hi bean bana hai sab ko ussi se point kar dena 
+aur lagana chaho toh aap class ke upar 
+
+@Scope("singleton")
+public class OrderService {
+
+}
+
+
+singleton:isko eager beans bhi bolte hai matlba eager matlab jaldi main beans bana lena chahta hu jab ioc container start ho tabhi ban jao 
+ye kehta hai kijaise hi ioc container up hoga wase hi mein beans bana dunga 
+
+protype:isko lazy bean bhi bolte hai matlab lazy matlab late
+ya ye kehta hai kijaise hi ioc container up ho usse koi matlb nahi hai jab tak jarrorat na pade tab tak mat banana 
+
+matlab jaise koi bole ki getbBeans(OrderService.class) hai and orderService pe laga hai scope("prototype")
+toh ye kaheg mein jab ioc container up hoaga jab banunga balki tab bnaunga kab koi maanegnga 
+
+ya jab koi bola ki mujhe ek OrderService ka object chahiye toh wo object create nahi kar dega jab tak koi na maange 
+tab tak mat banana 
+
+
+aap isko check kar sakte ho aise 
+
+ki main class empty and OrderService mein contructor rakho and gar object banega toh print hoga warna nahi 
+
+
+@Component
+@Scope("prototype")
+public class OrderService {
+    public OrderService()
+    {
+        System.out.println("new order object created");
+    }
+    public void placeOrder()
+    {
+        System.out.println("order placed");
+    }
+
+}
+
+public class Main {
+    public static void main(String[] args) {
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+    }
+}
+
+Outout is:blank kyonki kisis ne object naanga hi nahi hai toh mein nahi bananunga
+
+and agar scope singleton hota toh output is:new order object created
+kyonki singleton ka matlab ioc container up hote hi mein bean bana dunga 
+
+
+singleton scope in DETAIL:
+matlab sirf ek obejct(bean) bangea nahi ?
+
+matlab ye hai ki har ek bean class(humne aapko batata tha ki bean baane se pahle uskabean class banta hai taaki wo uss object ko banane se pahle usske baare mein saare information store kar sakein) ke liye sirf ek  bean banagea
+
+lein aap chao toh do beans bana sakte ho using @Bean in AppConfig class kyonki ye ek type ka developer hi cfraete karta hai and usko de deta hai ioc container ko smahalne ke liye 
+
+example:
+@configuration
+public class AppConfig {
+    @Bean
+    public OrderService orderService1()
+    {
+        return new OrderService();
+    }
+    @Bean
+    public OrderService orderService2()
+    {
+        return new OrderService();
+    }
+}
+
+ab isse do bean ban gaye hai 
+
+
+
+When to use which scope:
+
+1:prototype:aap khud soche prototype matlab har baar naya object banata hai toh ye kab best hoga ye tab best hoga jab humrae paas 
+class mein kuch variables honge (jisko states kehte hai ) matllab 
+
+class Student{
+    String name;
+    int age;
+}
+
+ab aap aisa n chahoge ki har object ka naam and age same ho kyonki agar sabka name same hi the what is the use of creating new objects in universities or college sab ka same hi naam rkah do na
+
+2:ye tab use karein jab koi service class ho because usmein koi state nahi hota hai like name,age toh ek object se kaam chal jayega like OrderService 
+
+
+Singeleton scope:stateless class ke liye best
+prototype scope:best for state class (Jismein kuch variables(state) ho jo har objects ka alaga ho)
