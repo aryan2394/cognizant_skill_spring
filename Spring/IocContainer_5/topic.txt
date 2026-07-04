@@ -1,9 +1,6 @@
 without dependency injection jab hum aisa karte the ki jis class ko jis class se kaam uss class ka object khud banake wo kaam karta tha 
 
-package org.example;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     static void main() {
         OrderService o=new OrderService();
@@ -11,7 +8,7 @@ public class Main {
     }
 }
 
-package org.example;
+
 
 public class OrderService {
     Payment p=new Payment();
@@ -22,7 +19,7 @@ public class OrderService {
     }
 
 }
-package org.example;
+
 
 public class Payment {
     public void pay()
@@ -39,10 +36,7 @@ lekin Order class ka kaam hai order se related saari cheezon ko handle karna n k
 toh hum abhi kya karenge ki order class ko payment object toh use karega lekin wo object ab khud nahi banayega 
 balki wo object banke kisi aur jagah se inject hoga that in MAIN.JAVA CLASS 
 
-package org.example;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     static void main() {
         Payment p=new Payment();
@@ -52,7 +46,7 @@ public class Main {
 }
 
 
-package org.example;
+
 
 public class OrderService {
     private Payment p;
@@ -68,7 +62,7 @@ public class OrderService {
     }
 
 }
-package org.example;
+
 
 public class Payment {
     public void pay()
@@ -108,13 +102,7 @@ ApplicationContext context=new ApplicationContext();
 // nahi likh sakte hai because ye ek interface hai and interface ka koi object toh banata hi nahi hai 
 
 toh see Main.class 
-package org.example;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     static void main() {
         ApplicationContext context=new AnnotationConfigApplicationContext(AppConfig.class);
@@ -136,13 +124,11 @@ AppConfig class :
 
 // dekho ye basically rule book hai for ioc container ko aapko kaun se class ke bean ko create,manage karna hai
 //@Configuration matlba ye ek ek class hai jo ki Metadata hai ko store karegi
-//@ComponentScan:ismein hum jo bhi package ka naam denge andar usmein jaake @Componnetn ko scan karega
+//@ComponentScan:ismein hum jo bhi package ka naam denge andar usmein jaake @Component ko scan karega
 @Configuration
 
 @ComponentScan(".org.example")
 public class AppConfig {
-
-
 }
 
 OrderService class: 
@@ -292,3 +278,22 @@ ye best hai kyonki setter wale mein dono ka object banane ke baad hum set kareng
 and agar sirf 1 contructor ho n toh @Autowired likhne ki jarrorat nahi hoti hai because ek hi contructor hai toh ioc ko khud pata hota hai ki ismein inject karna hai 
 
 2: unit testing easy ho jaati hai 
+
+
+ab ek condition maanlo ki ek class hai and wo inject karana chah rahi hai lekin wo kisi class ke object ko inejct nahi karna hai usko balki wo ek interface ke kisis ek multiple class ke kisis ek object ko inject karegi
+
+agar sirf kisis ek implemented class pe laga hai @Component of implemented class tab toh koi matlab nahi hai tab toh uss interface ko implemented class ke object ko inject kar dega lekin agar same inteface ke hi multiple class pe laga hai @Component toh kaise hoga and ksisi object ko inject karega ioc 
+
+yaha pe kaam aayega 
+
+1:@Primary:ye bolta hai ki aap jisko bhi priority dena chahte ho uspe @Primary bhi laga dena usss class ke upara taaki agar ioc container confuse ho uss class ke object ko bana le 
+
+like notifactionService has multiple implented class like whatsappNotification and smsNotification class and dono mein se kisi ek ko use karna hai toh uss class ke upar @Primary likhna hoga 
+
+2:@Qualifier:ye bolta hai ki aap sabhi class pe @Qualifier laga do and jisko bhi priority dena hia usko jaha pe bhi wo injcet hoga waha pe jaake uss Qualifier ka naam likh dena buss ki agar confusion ho then create my bean 
+
+@Qualifier in smsnotifaction class and @Qualifier in whatsappNotification class 
+
+and orderService class mein inject karte public OrderService(@Qualifier("smsNotification"))
+
+

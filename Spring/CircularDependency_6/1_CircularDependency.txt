@@ -14,7 +14,8 @@ public class Main {
 //        sabse pale ioc container ko up karo using annotaionBaseConfiguration
         OrderService order=context.getBean(OrderService.class);
         order.placeOrder();
- 
+    }
+}
  and OrderService class:
 
  @Component

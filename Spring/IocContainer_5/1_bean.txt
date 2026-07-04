@@ -95,25 +95,10 @@ kab destroy karna hai
 
 Sab Spring dekhta hai.
 
-Real Life Example
 
-Ek hotel imagine karo.
 
-Tum restaurant jaate ho.
 
-Tum chef ko nahi bolte
 
-"Mujhe kitchen de do, main khud pizza banaunga."
-
-Tum sirf bolte ho
-
-"One Pizza."
-
-Hotel
-
-Pizza banata hai
-Ingredients arrange karta hai
-Serve karta hai
 
 Tum sirf use karte ho.
 
@@ -128,4 +113,4 @@ Spring
 Car banata hai
 Engine lagata hai
 Tyres lagata hai
-Object ready karke de deta hai.
+Object ready karke de deta hai. 

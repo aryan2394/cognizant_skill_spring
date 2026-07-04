@@ -132,3 +132,44 @@ ab aap aisa n chahoge ki har object ka naam and age same ho kyonki agar sabka na
 
 Singeleton scope:stateless class ke liye best
 prototype scope:best for state class (Jismein kuch variables(state) ho jo har objects ka alaga ho)
+
+
+why scope of prototype is alway lazy:protype kahta hai ki mein jab mujeh koi call karega then mein aapko ek naya bean banake dunga toh hum extra bean banake kyon rakhein jab humein naya hi bean banake dena hai tab 
+
+
+ab doing one cheez ki hum dependency injection ko inject karte hai using Constructor injection 
+
+@Component
+public class OrderService {
+    private PaymentService payment;
+    public OrderService(PaymentService payment)
+    {
+        this.payment=payment;
+    }
+}
+
+ab hum singleton and prorotype ko check karenge with diffenrt diffenrt combinations
+
+case 1:jab hum kuch n lagaye kuch bhi toh by default sab singleton hai and toh aur usmein bhi by defaukt eager matlab ioc container up hote hi bean scraete ho jayenge 
+and banate hi wo dependency bhi inject ho jayenge normally kyonki dodno ke objects bane  huwe hai toh koi dikkat nahi hai 
+
+
+case2:maanlo humne @Lazy lagaya OrderService class pe matlab ki ab uska object toh banage ahi nahi toh isko toh order service chahiye payment karne ke liye  toh ab kya hoga 
+
+
+@Lazykuch nahi jab iska object hi nahi bana  toh sirf paymentService ka object banega
+
+
+case3:@Lazy jab hum lagaye ab PaymentService class pe matlab ab iska object tabhi banage ajb koi bolega ki mujhe aapka ek object chahiye warna mein nahi banunga bhai 
+
+toh aapke hisab se by default OrderService ka bean banaega kyonki wo by dwfault eager hai and paymentService lazy hai matlab iska object toh ioc nahi banaya hai jab koi maanagega tab banega 
+
+toh but aap dekho ki orderService ko ek PaymentService ka object chahiye n kyonki usko inject karna hai while craeting the constructor humein ek paymentService ka object chahiye 
+
+output will be :
+
+payment object created
+order object created
+
+@Lazy ka simple matlab hai ki mein khud se nahi banaunga lekin agar koi aisa hai jisko mere bina wo class ka object bana hi nahi skata hai and he wants me a object of paymentService matlab usko ek obejct chahiye toh wo ek obejct bana dega 
+
