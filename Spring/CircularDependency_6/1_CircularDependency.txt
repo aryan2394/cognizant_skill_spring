@@ -1,0 +1,187 @@
+circular dependency:ka matlab hai maanlo ek class hai usko dusre class ka object chahiye and jo dusra class hai usko iska object chahiye 
+
+example:class OrderService,PaymentService hai 
+
+agar class OrderService ko PaymentService ka object chahiye apne mein and PaymentService is independent matlab agar wo kisis pe depened nahi hai toh 
+IOC Container bahut smart hai pahle wo PaymentService ka beans banayega phir usko inject kar dega in OrderService
+using contructor,setter or field injection 
+
+public class Main {
+    static void main() {
+        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
+        // to see how IntelliJ IDEA suggests fixing it.
+        ApplicationContext context=new AnnotationConfigApplicationContext(AppConfig.class);
+//        sabse pale ioc container ko up karo using annotaionBaseConfiguration
+        OrderService order=context.getBean(OrderService.class);
+        order.placeOrder();
+    }
+}
+ and OrderService class:
+
+ @Component
+public class OrderService {
+    private PaymentService payment;
+    public OrderService(PaymentService payment)
+    {
+        this.payment=payment;
+    }
+    public void placeOrder()
+    {
+        payment.pay();
+        System.out.println("order placed");
+    }
+    
+}
+
+PaymentService class:
+
+public class PaymentService {
+    
+    public void pay()
+    {
+        System.out.println("payment done");
+    }
+}
+
+these is norml flow jab koi n koi ek class independent ho and beans banana aasan ho kisi  ek class ka 
+
+ab circular dependency create karte hai hum :
+
+class OrderService:
+
+@Component
+public class OrderService {
+    private PaymentService payment;
+    public OrderService(PaymentService payment)
+    {
+        this.payment=payment;
+    }
+    public void placeOrder()
+    {
+        payment.pay();
+        System.out.println("order placed");
+    }
+    public void getDetails()
+    {
+        System.out.println("order details");
+    }
+}
+
+class PaymentService:
+
+@Component
+public class PaymentService {
+    private OrderService orderService;
+    public PaymentService(OrderService orderService)
+    {
+        this.orderService=orderService;
+    }
+    public void pay()
+    {
+        System.out.println("payment done");
+        orderService.getDetails();
+    }
+}
+
+class Main:
+
+OrderService order=context.getBean(OrderService.class);
+        order.placeOrder();
+//        error is :Is there an unresolvable circular reference or an asynchronous initialization dependency?
+
+toh error aa gaya hai ki mein kaise banau bhai kyonki jab mujhe 
+
+OrderService order=new OrderService(PaymentService payment) and 
+PaymentService payment=new PaymentService(OrderService order) chahiye toh dono ek doosre par depend ho gaye 
+
+solution 1:possible ye hai ki isko ek ko constructor injection se hata do and setter ya filed injection se dependency inject kar do matlab isliye ho rahi hai kyonki dodno ko ek dusre ki jarrorat hai lekin jab A ban raha hai tab B ki jarrorat hai and B bana hi nahi hai toh kaise ho payega 
+isliye aap kya karo ki pahle A and B dono k aobject ban jaane do phir inject kar dena n kyonki faltu mein problem create kar rahe ho 
+
+OrderService order=context.getBean(OrderService.class);
+        order.placeOrder();
+
+@Component
+public class PaymentService {
+    @Autowired
+    private OrderService orderService;
+//    solution suing the filed or stter method
+    public void pay()
+    {
+        System.out.println("payment done");
+        orderService.getDetails();
+    }
+}
+
+public class OrderService {
+    @Autowired
+    private PaymentService payment;
+//    public OrderService(PaymentService payment)
+//    {
+//        this.payment=payment;
+//    }
+    public void placeOrder()
+    {
+        payment.pay();
+        System.out.println("order placed");
+    }
+    public void getDetails()
+    {
+        System.out.println("order details");
+    }
+}
+
+
+
+LEKIN MAIN QUESTION HAI KI AAP circular dependency AANE HI KYON DE RAHE HO iska solution kya hai ?
+
+matlab circular dependency aaya hi kyon uske peeche reason hai kyonki orderService ko ek method call krana tha or usko ek object chahiye tha so that's why humne uske objevt ko inject kiya 
+lekin aapne PaymentService mein OrderService ka object kyon banaya isliye abnaya hai kyonki humein ek orderService ka ek method call karna hai 
+
+Practically:dekhe toh order karne se pahle usko payment ki jarrorat hai and payment karne ke liye usko order karne ki jarrorat hai toh aapko usko 
+orderService mein toh pay() function chalana hi padega hi kyonki uske bina toh order complete ho hi nahi sakta and aapko pay() mein OrderDetails ke liye 
+orderService chahiye hi hai kyonki bina payment ke kaun sa order complete hoga lekin 
+
+PaymentService ne bola ki mujhe pay karne ke baad ab OrderDetails() function chahiye jo ki object ka lekin bhai tumhe kya matlab hai ki OrderDetails() kya hai tum apana kaam karo n
+follow the SOLID prinCIPLE(single resposnibility prinCIPLE) toh iska solution ye hai ki aap payment kar do and orderService payment hone ke baad apne method ko khud se call kar le n dusre ko kyon bol raha hai ki aap payment ke baad OrderDetails() call kar lena 
+
+Solution :
+
+
+OrderService order=context.getBean(OrderService.class);
+        order.placeOrder();
+
+@Component
+public class OrderService {
+    @Autowired
+    private PaymentService payment;
+//    public OrderService(PaymentService payment)
+//    {
+//        this.payment=payment;
+//    }
+    public void placeOrder()
+    {
+        payment.pay();
+        getDetails();
+        System.out.println("order placed");
+    }
+    public void getDetails()
+    {
+        System.out.println("order details");
+    }
+}
+
+@Component
+public class PaymentService {
+//    @Autowired
+//    private OrderService orderService;
+//    solution suing the filed or stter method
+    public void pay()
+    {
+        System.out.println("payment done");
+//        orderService.getDetails();
+    }
+}
+
+
+
+

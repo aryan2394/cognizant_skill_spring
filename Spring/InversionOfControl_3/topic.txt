@@ -1,0 +1,25 @@
+Image 1 – Initial Design (Without IoC)
+
+Tumhari pehli image me ye dikh raha hai:
+
+OrderService
+      │
+      │ creates
+      ▼
+EmailService
+
+Matlab:
+
+class OrderService {
+
+    EmailService emailService = new EmailService();
+
+}
+
+matlab ye control kya hai matlab ki class jiske jarrorat hai wahi uska object banake usko use karegi 
+these is normal control or normal flow
+
+lekin humne depencency injection ke through jab kiya then humne uss class ko object banane se cheen liya and main class ko responsibility di hai ki tu sirf use kare object ko mein banake de dunga tumhe uss object ko 
+
+
+

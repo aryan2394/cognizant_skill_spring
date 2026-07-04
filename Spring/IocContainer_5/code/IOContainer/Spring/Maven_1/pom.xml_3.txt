@@ -1,0 +1,414 @@
+Awesome! 😄 Ye Maven ka sabse important topic hai. Agar pom.xml samajh aa gaya, to Maven ka 80% clear ho jayega.
+
+Main isse MERN se relate karke aur "ye aaya hi kyon?" se explain karunga.
+
+Sabse pehle ek question
+
+Tum React project banate ho.
+
+Us project me ek file hoti hai
+
+package.json
+
+Kabhi socha hai ye file kyun hoti hai?
+
+Example
+
+{
+  "name": "mern-chat-app",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "^5.0.0",
+    "mongoose": "^8.0.0",
+    "react": "^19.0.0"
+  }
+}
+
+Is file ko dekhkar npm ko pata chal jaata hai
+
+Project ka naam
+Version
+Kaunsi libraries install karni hain
+Scripts kya hain
+
+Bas npm install likho...
+
+npm sab download kar deta hai.
+
+Java me bhi same problem thi
+
+Developer bolta
+
+Mujhe Spring chahiye
+
+Maven bolta
+
+Kaunsa Spring?
+
+Developer
+
+Web wala
+
+Maven
+
+Kaunsi version?
+
+Developer
+
+3.5.0
+
+Maven
+
+Aur project ka naam?
+
+Developer
+
+Student Management
+
+Maven
+
+Kis company ka?
+
+Developer
+
+com.aryan
+
+Ye saari information kahin to likhni padegi.
+
+Isi ke liye aayi
+
+pom.xml
+POM ka full form
+
+POM = Project Object Model
+
+Naam thoda ajeeb lagta hai 😄
+
+Simple language me
+
+pom.xml Maven ki instruction file hai.
+
+Ya
+
+Ye Java project ka package.json hai.
+
+Main hamesha yaad rakhta hoon:
+
+package.json  ---> Node.js
+
+pom.xml       ---> Java Maven
+Real Life Analogy
+
+Socho tum Zomato se pizza order kar rahe ho.
+
+Order me likhte ho
+
+Name : Aryan
+
+Address : Delhi
+
+Pizza : Margherita
+
+Size : Large
+
+Cold Drink : Coke
+
+Ye order dekhkar restaurant ko sab pata chal gaya.
+
+Waise hi Maven pom.xml padhta hai aur samajhta hai ki project ke saath kya karna hai.
+
+pom.xml dikhta kaisa hai?
+<project>
+
+</project>
+
+Sab kuch isi <project> tag ke andar hota hai.
+
+Ek basic pom.xml
+<project>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.aryan</groupId>
+
+    <artifactId>student-management</artifactId>
+
+    <version>1.0.0</version>
+
+</project>
+
+Ab har line ko samajhte hain.
+
+1. modelVersion
+<modelVersion>4.0.0</modelVersion>
+
+Ye Maven ko batata hai
+
+Kaunsa POM format use ho raha hai.
+
+Normally
+
+4.0.0
+
+hi hota hai.
+
+99.9% projects me isi ko rehne dete hain.
+
+Isko usually change nahi karte.
+
+2. groupId
+<groupId>com.aryan</groupId>
+
+Ye batata hai
+
+Project kis organization ya developer ka hai.
+
+Example
+
+Google
+
+com.google
+
+Amazon
+
+com.amazon
+
+Microsoft
+
+com.microsoft
+
+Tumhara
+
+com.aryan
+
+Ye unique identity ka part hai.
+
+MERN Analogy
+
+React me
+
+"name": "chat-app"
+
+Java me identity do parts me hoti hai
+
+groupId
+
++
+
+artifactId
+3. artifactId
+<artifactId>student-management</artifactId>
+
+Ye project ka naam hota hai.
+
+Example
+
+student-management
+
+inventory-system
+
+chat-app
+
+banking-system
+
+Jab JAR banega
+
+student-management.jar
+
+isi naam se banega.
+
+4. version
+<version>1.0.0</version>
+
+Project ka version.
+
+Jaise
+
+1.0
+
+1.1
+
+2.0
+
+3.0
+
+React me bhi
+
+"version": "1.0.0"
+
+hota hai.
+
+Ab sabse important part
+Dependencies
+
+Ye Maven ka heart hai.
+
+<dependencies>
+
+</dependencies>
+
+Iske andar saari libraries likhi jaati hain.
+
+Example
+
+<dependencies>
+
+    <dependency>
+
+        <groupId>org.springframework.boot</groupId>
+
+        <artifactId>spring-boot-starter-web</artifactId>
+
+        <version>3.5.0</version>
+
+    </dependency>
+
+</dependencies>
+Ye kya bol raha hai?
+
+Maven ko bol raha hai
+
+Mujhe
+
+Spring Boot Web
+
+Version 3.5.0
+
+download kar do.
+
+Bas.
+
+Tum manually kuch nahi karte.
+
+MERN Example
+
+Node
+
+npm install express
+
+Java
+
+<dependency>
+
+Spring Boot
+
+</dependency>
+
+Dono ka purpose same hai.
+
+Maven kya karta hai?
+
+Jaise hi tum likhte ho
+
+mvn package
+
+Maven
+
+Read pom.xml
+
+↓
+
+See Dependencies
+
+↓
+
+Internet pe jaata hai
+
+↓
+
+JAR download karta hai
+
+↓
+
+Compile karta hai
+
+↓
+
+JAR bana deta hai
+Maven ko kaise pata chalta hai kahan se download karna hai?
+
+Tum soch rahe hoge
+
+Ye internet pe jaata kahan hai?
+
+Default by Maven:
+
+👉 Maven Central Repository
+
+Ye Java ki duniya ka bahut bada online library store hai.
+
+Bilkul waise hi jaise npm packages npm registry se aate hain.
+
+Flow:
+
+pom.xml
+      ↓
+Maven
+      ↓
+Maven Central Repository
+      ↓
+Download JARs
+      ↓
+Store in .m2 folder
+      ↓
+Use in your project
+MERN vs Java
+MERN	Spring Boot
+package.json	pom.xml
+npm install	mvn package / mvn install (dependencies resolve as needed)
+npm registry	Maven Central Repository
+node_modules	.m2 Repository
+express	spring-boot-starter-web
+Complete Flow
+Developer
+
+↓
+
+Writes pom.xml
+
+↓
+
+Runs
+
+mvn package
+
+↓
+
+Maven reads pom.xml
+
+↓
+
+Downloads dependencies
+
+↓
+
+Compiles Java files
+
+↓
+
+Runs tests
+
+↓
+
+Creates app.jar
+
+↓
+
+Application Ready
+🧠 Memory Trick
+
+Yaad rakho:
+
+P O M
+
+P → Project Information
+      (Name, Version, Company)
+
+O → Outside Libraries
+      (Dependencies)
+
+M → Maven Instructions
+      (How to build the project)
+🎯 Exam Definition
+
+pom.xml (Project Object Model) is the main configuration file of a Maven project. It contains project information (such as name and version), dependencies, plugins, and build configuration. Maven reads this file to download libraries and build the project. 

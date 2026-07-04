@@ -1,0 +1,50 @@
+Ab Difference Samjho
+1. IoC (Inversion of Control)
+
+Ye answer deta hai:
+
+Object kaun banayega?
+
+Answer:
+
+👉 Spring.
+
+Isliye IoC ka focus hai:
+
+Control kis ke paas hai?
+
+2. Dependency Injection (DI)
+
+Ye answer deta hai:
+
+Object ko class tak kaise pahunchaya jayega?
+
+Answer:
+
+👉 Constructor, Setter ya Field Injection ke through.
+
+Isliye DI ka focus hai:
+
+Dependency ko provide kaise kiya jayega?
+
+Ek Sentence me Difference
+IoC
+
+Spring object create aur manage karega.
+
+DI
+
+Spring object ko jis class ko chahiye usko de dega.
+
+Interview Ready Answer
+
+Agar interviewer bole:
+
+Difference between IoC and Dependency Injection?
+
+Tum confidently bol sakte ho:
+
+IoC (Inversion of Control) is a design principle where the control of creating and managing objects is transferred from the developer to the Spring Container. 
+Dependency Injection (DI) is the technique used by Spring to achieve IoC by providing the required dependencies to a class through constructor, setter, or field injection.
+
+

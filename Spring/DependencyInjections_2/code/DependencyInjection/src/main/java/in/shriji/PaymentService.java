@@ -1,0 +1,7 @@
+package in.shriji;
+
+public class PaymentService {
+    public void pay() {
+        System.out.println("payment done");
+    }
+}

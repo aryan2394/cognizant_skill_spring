@@ -1,0 +1,70 @@
+dkeho abhi tak humne dekha ki ioc container jo saare beans ko create kar lete hai and manage kar leta hai using the IOC COonatiner 
+humein basically chahiye jis bhi class ko chahiye ki uss object (beans ko manage and craete karein) usmein buss humein @Component lagana
+hai and kabhi ioc confuse ho then use the @Qualifier to simplify the things for ioc container 
+
+
+BUT KYA IOC CONTAINER SAARE CLASS KA OBJECT CREATE KAR SAKTA HAI NAHI YA HA ?
+ANS:NAHI KYON AAP LAGA DO N @Component kya dikkat hai 
+
+aap iss class ka object nahi bana sakte ho kis class ka see example 
+
+class Student{
+    private String name;
+    private int age;
+    public Student(String name,int age)
+    {
+        this.name=name;
+        this.age=age;
+    }
+}
+
+ab agar ioc container iska object banayega ya beans toh iss class ka object banane ke liye humein through object usse koi value paas karni hogi 
+wo ioc container kaha se laayega so that's the problem 
+
+matlab ki ioc conatiner har class ka object nahi bana sakta hai 
+
+When component fail:
+
+1:jab contructor mein kuch values chahiye and then ioc conatiner uss values ko kaise provide karega 
+
+2:and jab humara class ko kisi aur dusre dependency class ki object banani ho kyonki hum wo bhi nahi bana sakte hai kyonki aap wo apne dependency mein dekh sakte ho wo saare class lekin wo read only file hoti hai toh aap usko edit nahi kar sakte hai 
+
+toh ab hum kya karein kya ab ioc container inko manage nahi karega kya ?
+
+ismein entry hoti hai @Bean :ye kya bolta hai ki mujhe mein chahiye ki aap sirf mujhe ek object banake de do uske baad mein usko manage kar lunga and dependency injection sab dekh lunga 
+lekin hum abhi tak toh bolte the ki object create,manage sab ioc container karega lekin ab toh developer ko object create karna hi pada 
+
+kyonki ioc conatiner kaise banayega object kyonki usko kuch values deni padegi like name and gae wo kaha se aayegi ?wo toh usko pata hi nahi hai so that's the problem 
+isliye sirf aap object create karke dedo mein phur usko ioc conatiner mein save kar lunga and then phir mein sab manage kar lunga 
+
+toh ab BAAT HAI OBJECT KAHA BANAYE HUM STUDENT KA AISA CLASS KA JISKA IOC CONTAINER NAHI BANA SAKTA HAI 
+
+HUMEIN USSE banana hoga in AppConfig.java class mein jo humne abhi tak choda huwa tha 
+
+changes in AppConfig.java
+
+@Configuration
+
+@ComponentScan(".org.example")
+public class AppConfig {
+    @Bean
+    public Student createUser()
+    {
+        return new Student("shriji",18);
+    }
+}
+
+
+Without @Bean gives error ki aisa bean exist hi nahi karta hai 
+
+ab will work and aapne jo object create karte huwe diya hoga naam wo print ho jayega 
+Student s=context.getBean(Student.class);
+System.out.println(s.getName());
+
+
+Matlab ki ioc container can craete the objects(beans) in 2 ways 
+
+1:@Component:these is class annotaion matlab ki jis class pe hum normally normally ioc container ko bol sakte hai ki aap beans craete and manage sab karo 
+
+2:@Bean:these is method annotaion matlab ye bhi beans(object) hi banata hai lekin ye uska object khud hi banata hai then paas  to ioc container to handle it 
+iska hum use karte hai jab kisi class pe hum @Component nahi laga sakte hai 
