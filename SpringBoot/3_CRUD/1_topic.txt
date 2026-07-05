@@ -1,0 +1,241 @@
+dekho hum ab web appication bana rahe hai using the spirng boot toh humein spring initialization se kuch Dependencies download karni hogi 
+
+1:spring-boot web
+2:mysql driver
+3:spring data jpa
+
+lekin jab aap appication start karna chhaoge using sout("shriji); error 
+
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+public class CrudSpringBootApplication {
+
+	public static void main(String[] args) {
+
+        SpringApplication.run(CrudSpringBootApplication.class, args);
+        System.out.println("shri ji");
+
+//        error is coming:
+
+//        Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+//        application toh chal jaana chahiye tha kya ho gaya bhai
+//        dekho humra paas @SoringBootApplication hai jo 3 aur annotaion hai uske paas and one is @EnableAutoConfiguration
+//        iske baare mein humne bataya tha ki ye automatically depeenddecies check karta hai and uske hisab se jo compularsary bean hai usko download kar deta hai ussi tarah usne kuch beans banane ki koshsih ki and error aa gaya
+//        error hai Datasource ka wo bean banane gaya and error aa gaya ye class jo hai basically iska bean banane ke liye humein usenrame and passowrd of mysql dena hota hai in application.properties jo humne abhi nahi diya isliye ye isko beans bnhia bana paaya and error de diya
+//        toh kya karein abhi kuch nahi aap @SpringBootApplication(exclude = exclude = DataSourceAutoConfiguration.class) kar do toh ab ye class ka bean wo nahi banayega
+
+//
+
+    }
+}
+
+
+ab we are ready to perform the crud operation :
+toh kaise karein make StudentService and hum uspe crud perform karenge jaise ki hum hamesha se PaymentService and OrderService banate the
+
+@Component
+public class StudentService {
+//    ab humein bahut kaam karna hai
+//    1:server port ko listen karein in 8080
+//    2:business login
+//    3:connect with database
+//    4:response back to client(postman)
+
+//    kya HUMEIN SAB KAAM EK MEIN HI KARNA CHAIYE NAHI YE TOH GALAT HAI 
+}
+
+hum isko properly folder structured banayenge taaki jab ek hi files mein n ho 
+
+=========================================================
+            SPRING BOOT CRUD PROJECT ARCHITECTURE
+=========================================================
+
+                     +----------------+
+                     |    Student     |
+                     |     Entity     |
+                     +----------------+
+                             |
+                             |
+          -----------------------------------------
+          |                   |                   |
+          |                   |                   |
+          v                   v                   v
+
++-------------------+   +-------------------+   +----------------------+
+| StudentController |-->|  StudentService   |-->|  StudentRepository   |
+|-------------------|   |-------------------|   |----------------------|
+| Handles HTTP Req  |   | Business Logic    |   | Database Operations  |
++-------------------+   +-------------------+   +----------------------+
+                                                      |
+                                                      |
+                                                      v
+                                               +-------------+
+                                               |  Database   |
+                                               |   Tables    |
+                                               +-------------+
+
+=========================================================
+                    CLIENT REQUEST FLOW
+=========================================================
+
+Postman
+   |
+   |  HTTP Request
+   |  POST /api/students
+   |
+   v
+StudentController
+   |
+   v
+StudentService
+   |
+   v
+StudentRepository
+   |
+   v
+Database (Student Table)
+
+=========================================================
+                 SAMPLE REQUEST BODY (JSON)
+=========================================================
+
+{
+    "name": "Aryan",
+    "age": 22,
+    "rollNo": 101
+}
+
+=========================================================
+                    RESPONSIBILITIES
+=========================================================
+
+1. Entity
+   - Represents the Database Table.
+   - Contains fields like:
+       • id
+       • name
+       • age
+       • rollNo
+
+2. Controller
+   - Receives HTTP Requests.
+   - Exposes REST APIs.
+   - Calls Service Layer.
+
+3. Service
+   - Contains Business Logic.
+   - Validates data.
+   - Calls Repository.
+
+4. Repository
+   - Interacts with Database.
+   - Performs CRUD Operations.
+   - Uses Spring Data JPA.
+
+5. Database
+   - Stores Student records in Tables.
+
+=========================================================
+                    COMPLETE FLOW
+=========================================================
+
+Postman
+    │
+    ▼
+StudentController
+    │
+    ▼
+StudentService
+    │
+    ▼
+StudentRepository
+    │
+    ▼
+Database
+    │
+    ▲
+Response travels back in reverse order
+    │
+StudentRepository
+    │
+StudentService
+    │
+StudentController
+    │
+Postman
+
+
+Sabse pahle design the enity class :ye class basically samjho ye batati hai ki actaul database mein kaun si value jayegi and kaise value store hogi and usmein fiels kaise honge 
+ab data sql mein feed karne ke liye and humein ye toh batana padega n ki ye class bsically ek entity class hai and ye bolkul sql table ke hisab se convert honi chahiye 
+and insert into table student(name,age,..) iss tarah se convert ho jaaye and dusri baat agar aap dhyaan do sql mein har ek row ko independly fetch karne ke liye ya unique banane ke liye hum har row ko ek particular id 
+dete hai jisko primary key dete hai 
+
+LEKIN 2 SAWAAL SPRINGbbot ko kaun ye batayega 
+
+1:ki ye entity class and isko sql table se convert jpga jo bhi data aayega from postman or frontend
+2:and ismein primary key kaun si hogi ye sab kaun batayega 
+
+AND SABSE IMPORTANT ENTITY CLAS MEIN @Component hai nahi inetrface mein isko humara sping ka ioc container toh manage nahi karega toh kya phir hum karenge nahi 
+isko manage karta hai spring jpa baad mein smajahenge kaise an dkya 
+
+Soution1:@Entity class ye bata degi ki ye class special entity class hai matlab ye databse mein values legi issi varible types se 
+Solution2:@Id and humein batana padega ki aap kisko primary key bananan chahte ho 
+
+public class Student {
+    private String name;
+    private int age;
+    private String email;
+    private int rollNo;
+    private String subject;
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public int getAge() {
+        return age;
+    }
+    public void setAge(int age) {
+        this.age = age;
+    }
+    public int getRollNo() {
+        return rollNo;
+    }
+    public void setRollNo(int rollNo) {
+        this.rollNo = rollNo;
+    }
+    public String getSubject() {
+        return subject;
+    }
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+
+ab sabse important jaise aap postman se request kiye 
+localhost:8080/api/students/create/{post} 
+localhost:8080/api/students/get/{id}/{get} or 8080/api/students/get_all/{get}
+localhost:8080/api/students/delete/{id}/{delete}
+localhost:8080/api/students/update/{id}/{update}
+localhost:8080/api/students/update_by_id/{id}/{update} 
+
+ab hum mern mein kya karte the app.use("/api/students",student)
+and router.get("/create) and iske liye particular Controller run hota hai  or router.post("/create)
+
+ab ismein java mein kaise hoga 
+humein Controller file hai usmein hi batana padega ki kaun se routes ko handle karna hai aapko and usmein kitne differnt variaties aap handle karoge 
+
+matlab aisa hoga java mein ki /api/students/create ya /api/students/get pe koi particluar functiion chalgea toh humein batana toh padega ki kaun sa functin kab chalana hai 
+
+ab dusri cheez mern mein humra postman se data directly aata tha req.body 
+ismein kaise aayega and controller mein toh kuch hai bhi nahi and saar vaiables ka data toh Studnet(Enttity class mein hai jo values aane wali hai )
+and usmein bhi req.body jo hai usmein value aayegi json format mein and Studnet.class mein toh varibles hai ye json to Objects mein kaun convert karega 
+
+ab baat hai 
+
