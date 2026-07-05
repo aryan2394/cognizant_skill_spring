@@ -1,0 +1,62 @@
+dekho jab bhi humein values laani rahti thi from e.nv files hum config.js bana lete the ki mein saari values yaha se fetch kar lunga aur phir aap use kar lena ussi tarah java ki bolta hai ki mein directly aapki vales jo bhi hai wo apne se nahi lunga balki ek alag class banao and usmein saari values likh do phir mein use kar lunga 
+
+basically humein agar jaise PaymentGateway class meinkuch properties chahiye toh hum ek alag se class banaynge jsika naam hi hoga same name with Propertyly likhoge
+PaymentGateway ko kuch varibale mein value assign karna toh hum directly iss file mein kuch nahi karenge balki ek paymentProperty class banayenge and usmein sab ye kaam karenge and phir usko inject kar denge apne PaymentGateway class mein through constructor injection
+@SpringBootApplication
+public class SpringBootDemoApplication {
+
+	public static void main(String[] args) {
+
+        ApplicationContext context=SpringApplication.run(SpringBootDemoApplication.class, args);
+        PaymentGateway paymentGateway=context.getBean(PaymentGateway.class);
+//        paymentGateway.setType("razorPay");
+        System.out.println(paymentGateway.getType());
+        System.out.println(paymentGateway.getRetryCount());
+	}
+
+}
+
+@Component
+public class PaymentGateway {
+    private PaymentProperty paymentProperty;
+    public PaymentGateway(PaymentProperty paymentProperty)
+    {
+        this.paymentProperty=paymentProperty;
+    }
+    public String getType()
+    {
+        return paymentProperty.getType();
+    }
+    public int getRetryCount()
+    {
+        return paymentProperty.getRetryCount();
+    }
+
+
+    }
+
+
+
+
+@Component
+@ConfigurationProperties("payment-gateway")
+public class PaymentProperty {
+    private String type;
+    private int retryCount;
+    public String getType() {
+        return type;
+    }
+
+    public int getRetryCount() {
+        return retryCount;
+    }
+
+    public void setRetryCount(int retryCount) {
+        this.retryCount = retryCount;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+}

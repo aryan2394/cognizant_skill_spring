@@ -1,0 +1,211 @@
+THESE IS SAME AS .ENV FILE KI HUM APNA URL,PROT,DATABSE AND SAARI CHEEZEIN SIMEIN RAKHEIN
+lekin jaise usmein hota tha ki value fetch karni hai toh process.env.PORT ismein kaise karoge ismein kaise kareneg 
+
+option1:see line no 117
+
+Sabse pehle ek question
+
+Maan lo tum ek Java application bana rahe ho.
+
+public class DatabaseConfig {
+
+    private String url = "jdbc:mysql://localhost:3306/mydb";
+    private String username = "root";
+    private String password = "1234";
+
+}
+
+Sab kuch code ke andar likh diya.
+
+Ab problem kya hai?
+
+Problem 1 - Har environment alag hota hai
+
+Development
+
+localhost
+
+Testing
+
+192.168....
+
+Production
+
+AWS Database
+
+Agar URL code ke andar hai to har baar
+
+change code
+
+↓
+
+compile
+
+↓
+
+package
+
+↓
+
+run
+
+Karna padega.
+
+Ye bahut bekaar approach hai.
+
+Problem 2 - Password code ke andar
+String password="1234";
+
+Agar GitHub pe push kar diya?
+
+Password bhi upload ho gaya.
+
+Ye security issue hai.
+
+Problem 3 - Har developer ka setup alag
+
+Aryan ke laptop pe
+
+localhost
+
+Friend ke laptop pe
+
+localhost:3307
+
+Agar code ke andar hi likha hai
+
+To har developer ko
+
+code edit
+
+karna padega.
+
+Problem 4 - Chhoti si setting ke liye bhi rebuild
+
+Suppose server port change karna hai.
+
+Current
+
+8080
+
+Manager bolta hai
+
+9090 kar do.
+
+Agar code me likha hai
+
+server.start(8080);
+
+To
+
+Edit code
+
+↓
+
+Compile
+
+↓
+
+Jar
+
+↓
+
+Run
+
+Bas port badalne ke liye itna kaam.
+
+
+lekin jaise usmein hota tha ki value fetch karni hai toh process.env.PORT ismein kaise karoge ismein kaise kareneg 
+
+option1:@Value:jis bhi varibale ko aap chahte ho ki wo value application.properties se lele waha ye likh dena 
+
+Agar tum khud property lena chaho
+
+Suppose
+
+student.name=Aryan(these is in application.properties likha hai toh )
+
+Java me
+
+@Value("${student.name}")
+private String name;
+
+
+OPTION2:ye @Value wala bada wo hai heactic maanlo 100 jagah hai values leni hai toh aap @Value karke tohda nahi likhoge har varibale ke paas 
+
+Ab @ConfigurationProperties
+
+Ye aur powerful feature hai.
+
+Suppose
+
+application.properties
+student.name=Aryan
+student.age=22
+student.city=Delhi
+
+Aur class
+
+@Component
+@ConfigurationProperties(prefix = "student")
+public class Student {
+
+    private String name;
+    private int age;
+    private String city;
+
+    // getters setters
+}
+
+Spring kya karega?
+
+Environment
+
+↓
+
+student.name
+
+↓
+
+name
+Environment
+
+↓
+
+student.age
+
+↓
+
+age
+Environment
+
+↓
+
+student.city
+
+↓
+
+city
+
+Ek ek field automatically fill kar dega.
+
+Final object
+
+Student
+
+-----------------
+
+name = Aryan
+
+age = 22
+
+city = Delhi
+
+-----------------
+
+Isliye jab properties zyada hoti hain tab
+
+@ConfigurationProperties
+
+best hai.
+

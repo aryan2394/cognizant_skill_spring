@@ -1,0 +1,274 @@
+Runner Interface (CommandLineRunner ya ApplicationRunner) Spring Boot ka startup callback hai. 
+Jab application poori tarah start ho jaati hai aur saare beans ready hote hain, tab Spring automatically run() method ko execute karta hai.
+
+Problem
+
+Spring Boot application start hoti hai.
+
+@SpringBootApplication
+public class App {
+
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
+    }
+}
+
+SpringApplication.run() ke baad kya hota hai?
+
+✅ IoC Container ban gaya.
+✅ Sare beans create ho gaye.
+✅ @Value inject ho gaya.
+✅ @ConfigurationProperties bind ho gayi.
+
+Ab maan lo tum application start hote hi koi kaam karwana chahte ho.
+
+Jaise:
+
+Database me default data insert karna.
+Kuch configuration print karna.
+Admin user banana.
+Cache load karna.
+
+Ye code kahan likhoge?
+
+main() me?
+
+public static void main(String[] args) {
+
+    SpringApplication.run(App.class, args);
+
+    // ??
+}
+
+Yahan problem hai.
+
+Tumhare paas beans nahi hain.
+
+Tum ye nahi kar sakte:
+
+paymentService.pay();
+
+Kyun?
+
+Kyuki paymentService object hi nahi hai.
+
+Isi problem ko solve karne ke liye Spring Boot ne diye
+CommandLineRunner
+ApplicationRunner
+
+In dono ko generally Runner Interfaces bolte hain.
+
+Ye interfaces application completely start hone ke baad automatically execute hote hain.
+
+Flow samjho
+Application Start
+
+        │
+        ▼
+
+Read application.properties
+
+        │
+        ▼
+
+Create Environment
+
+        │
+        ▼
+
+Create Beans
+
+        │
+        ▼
+
+Dependency Injection
+
+        │
+        ▼
+
+@PostConstruct
+
+        │
+        ▼
+
+Application Ready
+
+        │
+        ▼
+
+Runner Execute ✅
+
+Dhyan do.
+
+Runner tab chalta hai jab application fully ready ho.
+
+Example
+@Component
+public class MyRunner implements CommandLineRunner {
+
+    @Override
+    public void run(String... args) {
+
+        System.out.println("Application Started");
+
+    }
+}
+
+Jab application start hogi
+
+Output
+
+Application Started
+
+Ye method tum kabhi call nahi karte.
+
+Spring khud call karta hai.
+
+Runner me bean use kar sakte ho
+@Component
+public class MyRunner implements CommandLineRunner {
+
+    private final PaymentService paymentService;
+
+    public MyRunner(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+
+    @Override
+    public void run(String... args) {
+
+        paymentService.pay();
+
+    }
+}
+
+Kyun possible hai?
+
+Kyuki Runner tab execute hota hai jab
+
+PaymentService
+
+↓
+
+Already Created
+
+↓
+
+Injected
+
+↓
+
+Ready
+CommandLineRunner vs ApplicationRunner
+CommandLineRunner
+@Component
+public class MyRunner implements CommandLineRunner {
+
+    @Override
+    public void run(String... args) {
+
+    }
+}
+
+Arguments milte hain
+
+String... args
+ApplicationRunner
+@Component
+public class MyRunner implements ApplicationRunner {
+
+    @Override
+    public void run(ApplicationArguments args) {
+
+    }
+}
+
+Yahan milta hai
+
+ApplicationArguments
+
+Jo command-line arguments ko aur structured tarike se access karne deta hai.
+
+Example:
+
+java -jar app.jar --name=Aryan --age=22
+
+To ApplicationArguments se tum options aur non-option arguments alag-alag nikal sakte ho.
+
+Real Life Analogy
+
+Socho tum ek hotel khol rahe ho.
+
+Hotel Building Ready
+
+↓
+
+Electricity ON
+
+↓
+
+Staff Ready
+
+↓
+
+Kitchen Ready
+
+↓
+
+Reception Ready
+
+↓
+
+NOW
+
+↓
+
+Open Gate
+
+Gate khulne ke baad manager bolta hai
+
+Welcome Music Chalao
+
+Coffee Machine ON karo
+
+Today's Menu Print karo
+
+Ye jo "hotel ready hone ke baad" wale kaam hain, wahi Runner ka role hai.
+
+@PostConstruct aur Runner me difference
+@PostConstruct
+Bean Create
+
+↓
+
+Dependencies Inject
+
+↓
+
+@PostConstruct
+
+Ye ek specific bean ke initialization ke liye hota hai.
+
+Runner
+Saare Beans Ready
+
+↓
+
+Application Ready
+
+↓
+
+Runner
+
+Ye poori application ke startup ke baad chalne wale tasks ke liye hota hai.
+
+Kab kya use kare?
+Situation	Use
+Sirf ek bean initialize karni hai	@PostConstruct
+Application start hote hi database seed karna	CommandLineRunner
+Startup pe configuration print karni hai	CommandLineRunner
+Startup pe cache load karna	CommandLineRunner
+Command-line arguments ko structured way me padhna	ApplicationRunner
+Ek line me yaad rakhna
+
+Runner Interface (CommandLineRunner ya ApplicationRunner) Spring Boot ka startup callback hai. Jab application poori tarah start ho jaati hai aur saare beans ready hote hain, tab Spring automatically run() method ko execute karta hai.

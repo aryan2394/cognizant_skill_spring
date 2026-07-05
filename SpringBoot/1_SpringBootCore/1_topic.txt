@@ -1,0 +1,538 @@
+abhi hum hum log spring mein bhi kuch code abhi bhi baar baar likhte hai jiase ki har baar aana and ioc container ko bolna ki aapne aap ko up karo 
+and jao AppConfi.class mein configuration check karo and analyse karo kya karna and componennt scan and bean banao 
+
+lekin ye baar baar karna padta hai 
+
+SpringBoot isko bhi solve karta hai 
+
+Sabse pahle go now and download the spring appliaction from SPRING INITIIZER 
+
+sabse pahle lets analyse pom.xml spring INITIIZER ke through kya mila hai humein 
+
+pom.xml
+
+<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>4.1.0</version>
+		<relativePath/> <!-- lookup parent from repository -->
+</parent>
+
+<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+</dependencies>
+
+sabse pahle lets see :hum jab apne se download karte hai toh ye parent ye kabhi nahi milta hai and 
+har dependency mein bhi agar aap dhyaan se dekho toh version nahi likha huwa hai like in 
+<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+</dependency>
+
+aisa kyon? and ye parent kya hai 
+
+dekho sabse badi dikkat hai ki jaise jpa ,springboot and multiple depenedeices ke paas multiple versions hai and har ek particular versions ek particular hi chal sakta hai 
+matlab aisa ho skat hai ki spring core 7 aapne use kiya matlab maven repository se download kar liya and ab wo ksisi ke kisi dependencies ke saath compatible nahi hai 
+
+toh ye parent tag:ka yahi kaam hai ki jo bhi dependencies download hogi uske versions ko sahi se download karke laana matlab ki 
+kaun se version sksiske saath chalenge wo exact versions laayega 
+
+हम Spring Core यूज़ करते थे तो हम क्या करते थे कि सबसे पहला IOC container को up करते थे using application context, context equals to new annotation based configuration, और उसमें एक configuration class 
+का नाम डाल देते थे, जैसे appConfig.class. जिससे ये होता था कि सबसे पहले IOC container होता था, up होने के बाद वो एक config class, configuration class में जाता था, 
+और उसमें देखता था कि क्या-क्या rules हैं, कैसे beans बनाना है, कौन-कौन से class में beans बनाने हैं, और उनको beans को बना देता था.
+
+lekin ab aapke main file mein 
+sirf ye likha huwa hai 
+
+
+@SpringBootApplication
+public class SpringBootCore2Application {
+
+	public static void main(String[] args) {
+        SpringApplication.run(SpringBootCore2Application.class, args);
+	}
+
+}
+
+सिर्फ इस Spring Boot application में सिर्फ एक लाइन लिखा हुआ है SpringBootApplication.run और दिया हुआ है और ऊपर एक annotation लगा हुआ है SpringBootApplication पर.
+ लेकिन अभी तक हमने ये नहीं बताया है कि IoC container को up करना है और कौन-कौन से class का object या bean आपको बनाना है.
+
+ लेकिन फिर भी अगर हम चाहें और context.getBean करके अगर हम यूज़ करें, मतलब जिस भी class का object को call करें और उसपे लगा हुआ कोई भी function call करें, तो वो चल जाएगा.
+
+ ऐसा क्यों? 
+
+ humne toh ioc container up hi nahi kiya toh kaun up karega 
+ humne ek line likha hai SpringApplication.run 
+
+ agar aap .run() ko dekho toh wo ek interface implement karta hai ApplicationContext ko and wahi toh ioc container ko up karta hai matlab chalo theek hai 
+ ioc container to bana gaya lekin kiska bean banana hai and kahan hai bean banaane wali config class ye toh bataya hi nahi nahi ye abtaya hai ki @ComponentScan karo 
+
+ toh sabse upar main class ke likha hai 
+@SpringBootApplication
+ 
+ ye annotation 3 annotation se milke bana hai matlab ki ye sabka parent hi matlab aap isko likh diye toh saare iske backe bhi aa gaye 
+
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan
+
+matlab aap 3 likho ya ek hi likho barabaar hai 
+
+ab sabse pahle question ka solution :appConfig.class kaha hai jaha likha rahta tha ki ye @configuration class hai and ismein rules likhe hai kya and kaise beans banana hai 
+iska jawaab @SpringBootConfiguration dega 
+
+SpringBootApplication mein 
+@SpringBootConfiguration bhi @Configuration ko hi denote karta hai matlab ye bhi @Configuration hi hai matlab ki ab aapko 
+@configuration likhne ki jarurat hi nahi hai 
+
+ab agla 
+
+@ComponentScan ab ye kya hai 
+ye bata diya ki saare ComponentScan karo aaur jismein bhi @componennt mil jaye usko bean bana lena 
+
+SABSE IMPORTANT AND POWERFUL Configuration:
+
+@EnableAutoConfiguration: Spring Boot ka "smart assistant" hai. Ye project ki dependencies aur environment ko dekhkar automatically required configuration classes load karta hai aur unke beans IoC Container mein register kar deta hai, taaki tumhe manual configuration na likhni pade.
+
+Flow yaad rakhne ke liye:
+SpringApplication.run()
+          │
+          ▼
+IoC Container start
+          │
+          ▼
+@EnableAutoConfiguration
+          │
+          ▼
+Classpath (dependencies) check
+          │
+          ▼
+Matching AutoConfiguration classes load
+          │
+          ▼
+@Bean methods execute
+          │
+          ▼
+Beans IoC Container mein register
+          │
+          ▼
+Application Ready ✅
+
+
+DEtail:
+
+Sabse pehle ek question
+
+Spring Framework mein agar tumhe web application banani hoti thi to kya karna padta tha?
+
+Tumhe manually likhna padta tha:
+
+@Bean
+DispatcherServlet dispatcherServlet() {
+    return new DispatcherServlet();
+}
+@Bean
+TomcatServletWebServerFactory server() {
+    return new TomcatServletWebServerFactory();
+}
+@Bean
+ViewResolver viewResolver() {
+    ...
+}
+
+Database use karni hai?
+
+Fir aur configuration.
+
+Hibernate use karna hai?
+
+Fir aur configuration.
+
+Jackson use karna hai?
+
+Fir aur configuration.
+
+Security use karni hai?
+
+Fir aur configuration.
+
+100+ lines ki configuration.
+
+Spring Framework bolta tha
+
+"Tum jo use karna chahte ho, uski configuration khud likho."
+
+Spring Boot ne kaha
+
+Spring Boot ne socha
+
+"Agar kisi project mein spring-boot-starter-web dependency hai to obviously usko web application hi banana hoga."
+
+To user se kyun likhvaye?
+
+Hum khud kar dete hain.
+
+Isi idea ka naam hai
+
+Auto Configuration
+
+Matlab
+
+Project mein jo dependencies hain unhe dekhkar Spring Boot automatically configuration create kar dega.
+
+Aur ye kaam karta hai
+
+@EnableAutoConfiguration
+Ye annotation actually karta kya hai?
+
+Maan lo project hai
+
+pom.xml
+
+↓
+
+spring-boot-starter-web
+spring-boot-starter-jdbc
+mysql
+
+Spring Boot dekhta hai
+
+Accha...
+
+Web dependency hai
+
+↓
+
+DispatcherServlet bana do.
+
+Embedded Tomcat bana do.
+
+RequestMappingHandler bana do.
+
+JSON converter bana do.
+
+Error handling bana do.
+
+Fir dekhta hai
+
+JDBC dependency bhi hai
+
+↓
+
+DataSource bana do.
+
+JdbcTemplate bana do.
+
+Fir dekhta hai
+
+MySQL Driver bhi hai
+
+↓
+
+MySQL DataSource configure kar do.
+
+Tumne kuch nahi likha.
+
+Sirf dependencies add ki.
+
+Ye sab kaise pata chalta hai?
+
+Ab asli magic.
+
+Tumhare project mein
+
+spring-boot-starter-web
+
+hai.
+
+Iske andar bahut sari libraries hoti hain.
+
+Spring Boot startup ke time check karta hai
+
+Kya DispatcherServlet class available hai?
+
+Yes
+
+↓
+
+To WebMvcAutoConfiguration enable karo.
+
+Fir check karta hai
+
+Tomcat available hai?
+
+Yes
+
+↓
+
+TomcatAutoConfiguration chala do.
+
+Fir check karta hai
+
+Jackson library mili?
+
+Yes
+
+↓
+
+JacksonAutoConfiguration chala do.
+
+Fir check karta hai
+
+Validation dependency mili?
+
+Yes
+
+↓
+
+ValidationAutoConfiguration chala do.
+
+Aur aise hi dozens of auto-configurations chalti hain.
+
+Lekin ye AutoConfiguration classes aati kahan se hain?
+
+Spring Boot ke andar already likhi hui hoti hain.
+
+Example
+
+WebMvcAutoConfiguration
+DataSourceAutoConfiguration
+HibernateJpaAutoConfiguration
+SecurityAutoConfiguration
+JacksonAutoConfiguration
+
+Ye sab Spring Boot developers ne pehle hi bana rakhi hain.
+
+Tum sirf use karte ho.
+
+Startup pe kya hota hai?
+
+Maan lo tumne likha
+
+@SpringBootApplication
+public class App {
+
+    public static void main(String[] args) {
+
+        SpringApplication.run(App.class,args);
+
+    }
+
+}
+
+Ab andar ye flow hota hai.
+
+main()
+
+↓
+
+SpringApplication.run()
+
+↓
+
+IoC Container banao
+
+↓
+
+@ComponentScan karo
+
+↓
+
+@EnableAutoConfiguration
+
+↓
+
+Project ki dependencies check karo
+
+↓
+
+Suitable AutoConfiguration classes load karo
+
+↓
+
+Beans create karo
+
+↓
+
+Application Ready
+Ek real example
+
+Tumhare pom.xml mein sirf
+
+<dependency>
+    spring-boot-starter-web
+</dependency>
+
+hai.
+
+Tumne sirf
+
+@RestController
+class Hello {
+
+    @GetMapping("/")
+    String home() {
+
+        return "Hello";
+
+    }
+
+}
+
+likha.
+
+Bas.
+
+Ab batao
+
+Tomcat kisne banaya?
+
+Spring Boot.
+
+DispatcherServlet kisne banaya?
+
+Spring Boot.
+
+JSON converter kisne banaya?
+
+Spring Boot.
+
+Handler Mapping kisne banaya?
+
+Spring Boot.
+
+Controller register kisne kiya?
+
+Spring Boot.
+
+Tumne nahi.
+
+Ye sab
+
+@EnableAutoConfiguration
+
+ki wajah se hua.
+
+Ye beans kaise create hoti hain?
+
+AutoConfiguration class ke andar kuch aisa hota hai
+
+@Configuration
+public class WebMvcAutoConfiguration {
+
+    @Bean
+    DispatcherServlet dispatcherServlet() {
+        return new DispatcherServlet();
+    }
+
+}
+
+Spring Boot startup pe is class ko load karta hai.
+
+Aur bean bana deta hai.
+
+Isliye tumhe manually nahi likhna padta.
+
+Agar dependency hi na ho?
+
+Maan lo
+
+spring-boot-starter-web
+
+delete kar diya.
+
+Ab startup pe Spring check karega
+
+DispatcherServlet class mili?
+
+NO
+
+↓
+
+WebMvcAutoConfiguration skip.
+
+Tomcat?
+
+NO
+
+↓
+
+TomcatAutoConfiguration skip.
+
+Matlab unnecessary beans nahi bante.
+
+Isi liye Spring Boot fast bhi hai.
+
+Sabse important baat
+
+Tumne dekha hoga
+
+@SpringBootApplication
+
+Lekin humne kabhi
+
+@EnableAutoConfiguration
+
+likha hi nahi.
+
+Kyun?
+
+Kyunki
+
+@SpringBootApplication
+
+ke andar hi ye annotation included hai.
+
+Actually
+
+@SpringBootApplication
+
+lagbhag aisa hai:
+
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan
+public @interface SpringBootApplication {
+}
+
+Isliye alag se likhne ki zarurat nahi padti.
+
+📌 Ek line mein yaad rakhna
+
+@EnableAutoConfiguration Spring Boot ka "smart assistant" hai. Ye project ki dependencies aur environment ko dekhkar automatically required configuration classes load karta hai aur unke beans IoC Container mein register kar deta hai, taaki tumhe manual configuration na likhni pade.
+
+Flow yaad rakhne ke liye:
+SpringApplication.run()
+          │
+          ▼
+IoC Container start
+          │
+          ▼
+@EnableAutoConfiguration
+          │
+          ▼
+Classpath (dependencies) check
+          │
+          ▼
+Matching AutoConfiguration classes load
+          │
+          ▼
+@Bean methods execute
+          │
+          ▼
+Beans IoC Container mein register
+          │
+          ▼
+Application Ready ✅
+
+Iske baad agla logical topic hai @ConditionalOnClass, @ConditionalOnMissingBean, aur spring.factories (ya Spring Boot 3 mein AutoConfiguration.imports), kyunki wahi batate hain ki @EnableAutoConfiguration ko kaise pata chalta hai kaunsi AutoConfiguration class load karni hai aur kaunsi skip karni hai. Ye hi Spring Boot ke "magic" ka asli mechanism hai.
+
