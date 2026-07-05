@@ -1,0 +1,73 @@
+package in.shriji.crudSpringBoot.controller;
+
+import in.shriji.crudSpringBoot.entity.Student;
+import in.shriji.crudSpringBoot.service.StudentService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/students")
+public class StudentController {
+    private StudentService studentService;
+    public StudentController(StudentService studentService)
+    {
+        this.studentService=studentService;
+    }
+    @PostMapping("/create")
+    public ResponseEntity<Student> createStudent(@RequestBody Student student)
+    {
+        Student createdStudent=studentService.createStudent(student);
+        return ResponseEntity
+                .status(201)
+                .body(createdStudent);
+    }
+    @GetMapping("/get/{id}")
+    public ResponseEntity<Student> getStudent(@PathVariable Long id)
+    {
+        Student studentResp=studentService.getStudent(id);
+        if(studentResp==null)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity
+                .status(200)
+                .body(studentResp);
+    }
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Student>> getAllStudent()
+    {
+        List<Student> studentList=studentService.findAll();
+        if(studentList.isEmpty())
+        {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity
+                .status(200).body(studentList);
+    }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id,@RequestBody Student student)
+    {
+        Student studentResp=studentService.updateStudent(id,student);
+        if(studentResp==null)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity
+                .status(201)
+                .body(studentResp);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteStudent(@PathVariable Long id)
+    {
+        boolean deleted=studentService.deleteStudent(id);
+        if(!deleted)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity
+                .status(200)
+                .body("record deleted");
+    }
+}

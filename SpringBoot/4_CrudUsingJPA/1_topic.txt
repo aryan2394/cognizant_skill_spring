@@ -1,0 +1,13 @@
+dekho bhai humein pata hai ki Repository layer Interacts with databse and fetch data and insert data into sql and all thing 
+
+toh kya humein jasie db toh humra sql hai toh kya data daalne ke liye 
+
+insert into stydent values ('aryan',22,101); kya aisa karna padega nahi humein spring jpa kuch methods deta hai jo actually nadar se yahi karega lekin humein queries nahi likhne honge balki unn methods ko directly call karna hoga 
+
+exaample:
+
+1:save():insert into table wale create items in sql 
+2:findAll():select * from student (andar se)
+3:find():select * from student where id=1
+4:delete():delete from student where id=1 
+and etc 
