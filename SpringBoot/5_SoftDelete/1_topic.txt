@@ -1,0 +1,36 @@
+mujhe kya chhaiye ki mein delet karu databse se tab usko sorft delete karu matlab hum usko permananently delete n karein apne database mein se shayad agar aisa ho humein kabhi jarroart pad jaajye uss data ka isliye hum kabhi bhi apne db mein hard delete nahi karte hai
+busss ek cheez karein ki ek boolean variable types ka rakhein jo ye bata sakien ki ye actual databse mein hai ya nahi buss if its values is 1 then it is present in our databse otherwise wo delete jo chuk ahai humare databse mein se 
+
+humein saare code ko modify karna padega usse pahle humein apne entity class mein change karna hai and ek column add karna hoga 
+
+boolean deleted;
+
+deleted=true matlab ki ab ye id exist nahi hogi matlab ye student exist ab nahi karta hai ha wo rahega lekin student lekin jiski value 
+deleted=true hai matlab ki wo ab soft deleted hai 
+
+ab modify the code:
+
+1:create:usmein sabse pahle baat hai ki ab humein ab postman mein maanlo kisine deleted bheja postman se and given deleted=true toh iska matlab aap keh rahe ho ki aap create karte hi delete kar do 
+lekin agar delete hi karan ahai toh bananya hi kyon 
+
+toh ismein sabse impoortant baat hai aap user ko deleted ka option do lekin aap databse mein save karo as deleted=false
+apne se 
+
+toh hum apne se hi ste kar denge in databse mein student.setDeletd(false)
+humein user ne matalb hi nahi hai wo kya de raha hai kya nahi 
+
+
+2:get/{id}:ab get by id karna hai lkein ab ek baat dhyaan dena hai ki agar aisa ho ki wo sof delete ho gaya ho tabhi wo toh db mein hi buss uski value deleted=true hogi 
+matlab mujhe ab query chahiye ki 
+
+select * from student where id={id} and deleted=false tabhi wo data laana hai matlab dono case sahi hona chahiye matlab asia data mat laana jismein deleted=true ho 
+
+leikin aisa function toh pakka jpa humein nahi deta hai ki deletd=false and id exist karti ho 
+
+toh kya humein apne se query likhni padegi nahi ?but aisa function toh exist hi nahi karta hai 
+toh kay heum khud se query likhe nahi buss aaap usko function batao wo khud aisa function bana dega 
+
+
+
+
+
