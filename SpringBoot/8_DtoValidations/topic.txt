@@ -1,0 +1,261 @@
+hum jaise entity class banate hai and usmein jaise exacltyly sql mein table dikhata hai waise hi banate hai lekin ek hi student entity that is tansferring between controller,service and repository lekin isse entity class ki responsibily badh jaati hai 
+and aise kuch fileds hum chahte hai ki kuch fileds in student entity wo client n bhje jaise entity mein createdAt,
+ya kuch cheezein hum nahi chahte hai ki user de ya ek aur problem hai ki jab hum rersponse bi bhej rahe hai toh poora ka poora object bhej de rahe hai jismein kuch sensitive data bhi ho sakta hai 
+
+Pehle samajhte hain problem kya hai
+
+Maan lo tumhari entity hai:
+
+@Entity
+public class Student {
+
+    @Id
+    private Long id;
+
+    private String name;
+
+    private String email;
+
+    private String password;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+}
+
+Ye class database ki table ko represent karti hai.
+
+Ab flow dekho
+
+Client
+   ↓
+Controller
+   ↓
+Service
+   ↓
+Repository
+   ↓
+Database
+
+Aur tum har jagah isi Student entity ko use kar rahe ho.
+
+Problem 1 - Client unnecessary data bhej raha hai
+
+Suppose Register API
+
+POST /students
+
+Client request
+
+{
+    "name":"Aryan",
+    "email":"abc@gmail.com",
+    "password":"12345",
+    "createdAt":"2026-07-08",
+    "updatedAt":"2026-07-08"
+}
+
+Question:
+
+createdAt kaun decide karega?
+
+Client?
+
+❌ Nahi
+
+Server.
+
+Agar client bhej de
+
+createdAt = 2050
+
+to?
+
+Galat data save ho jayega.
+
+Problem 2 - Sensitive fields expose ho rahe hain
+
+Suppose
+
+GET /students/1
+
+Response
+
+{
+    "id":1,
+    "name":"Aryan",
+    "email":"abc@gmail.com",
+    "password":"12345",
+    "createdAt":"2026",
+    "updatedAt":"2026"
+}
+
+Password bhi chala gaya.
+
+Bahut dangerous.
+
+Problem 3 - Entity ki responsibility badh gayi
+
+Entity ka kaam kya hai?
+
+Database represent karna.
+
+Bas.
+
+Lekin agar wahi class
+
+Request le rahi hai
+Response bhej rahi hai
+Validation kar rahi hai
+
+to uski responsibility badh jaati hai.
+
+Ye Single Responsibility Principle (SRP) ko violate karta hai.
+
+Solution is:DTO(Data Transfer Object)
+
+Data ko ek layer se doosri layer tak transfer karne ke liye banaya gaya object.
+
+Entity aur DTO mein difference
+Student Entity
+@Entity
+public class Student {
+
+    private Long id;
+    private String name;
+    private String email;
+    private String password;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+}
+
+Ye database table ko represent karti hai.
+
+Ab maan lo user registration kar raha hai.
+
+User kya bhejega?
+
+{
+   "name":"Aryan",
+   "email":"aryan@gmail.com",
+   "password":"12345"
+}
+
+Notice karo
+
+User ne
+
+id nahi bheji
+createdAt nahi bheja
+updatedAt nahi bheja
+
+Kyuki ye server decide karega.
+
+Isliye hum banate hain
+
+public class StudentRequestDTO {
+
+    private String name;
+    private String email;
+    private String password;
+
+}
+
+Ye DTO hai.
+
+Controller mein kya aayega?
+
+Instead of
+
+@PostMapping
+public void save(@RequestBody Student student)
+
+Hum likhte hain
+
+@PostMapping
+public void save(@RequestBody StudentRequestDTO dto)
+
+Ab client sirf wahi fields bhej sakta hai jo DTO mein hain.
+
+Service mein kya hota hai?
+
+Service DTO ko Entity mein convert karti hai.
+
+Student student = new Student();
+
+student.setName(dto.getName());
+
+student.setEmail(dto.getEmail());
+
+student.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+student.setCreatedAt(LocalDateTime.now());
+
+Phir
+
+Student Entity
+        ↓
+Repository
+        ↓
+Database
+Database se data aaya
+
+Database
+
+id = 1
+
+name = Aryan
+
+email = aryan@gmail.com
+
+password = $2a$10$abcxyz...
+
+createdAt = 2026
+
+updatedAt = 2026
+
+Ab agar hum
+
+return student;
+
+kar den
+
+Response
+
+{
+   "id":1,
+   "name":"Aryan",
+   "email":"aryan@gmail.com",
+   "password":"$2a$10$abcxyz...",
+   "createdAt":"...",
+   "updatedAt":"..."
+}
+
+Password bhi chala gaya.
+
+Ye galat hai.
+
+Isliye Response DTO
+public class StudentResponseDTO {
+
+    private Long id;
+    private String name;
+    private String email;
+
+}
+
+
+theek hai matlab jo json mein postman se aayega usko hum StudentRequestDTO se map karenege and issi data ko service mein bhejenege lekein 
+ye data kuch toh kam hai matlab humein daabse mein toh poore entity wale fileds ko save karna hoga 
+
+lekin ab dto se entity mein kaun convert karega 
+
+Ab dto se humne entity ka kaam toh kar diya lekin humare ek aur cheez dikkat hai humein chahiye ki validations bhi sahi se abhi dikkat hai kya hum sahi se validation perform nahi kar rahe hai 
+
+like koi name empty bhej diya ya age =1000 hum sab save ar de rahe hai lekin it is not good 
+humein pahle validation perform karna hhaiye then huemis useko valiadtion mein bhejna chhaiye kyon 
+
+hum toh saara kaam service layer mein karte hai n nahi service mein businees logic se realed jaroori hai humein 
+isko controller layer mein hi rok dena chhaiye 
+
