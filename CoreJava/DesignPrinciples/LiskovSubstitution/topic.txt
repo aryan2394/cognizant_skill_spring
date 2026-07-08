@@ -1,0 +1,150 @@
+Liskov Substitution Principle (LSP)
+Definition
+
+Objects of a subclass should be replaceable with objects of the parent class without breaking the program.
+
+Simple Hindi mein:
+
+Agar ek class kisi parent class ko inherit karti hai, to us child class ka object parent class ki jagah use karne par program ka behavior nahi tootna chahiye.
+
+Java Example (Correct)
+Parent Class
+public class Bird {
+
+    public void eat() {
+        System.out.println("Bird is eating");
+    }
+}
+Child Class
+public class Sparrow extends Bird {
+
+    @Override
+    public void eat() {
+        System.out.println("Sparrow is eating");
+    }
+}
+Main
+Bird bird = new Sparrow();
+
+bird.eat();
+
+Output
+
+Sparrow is eating
+
+Yahan
+
+Bird bird = new Sparrow();
+
+Bilkul sahi hai.
+
+Parent ki jagah child aa gaya.
+
+Program bhi nahi toota.
+
+LSP Follow hua.
+
+Suppose interface hai
+
+public interface Notification {
+
+    void send();
+}
+
+Email
+
+public class EmailNotification implements Notification {
+
+    @Override
+    public void send() {
+
+        System.out.println("Email Sent");
+    }
+}
+
+SMS
+
+public class SmsNotification implements Notification {
+
+    @Override
+    public void send() {
+
+        System.out.println("SMS Sent");
+    }
+}
+
+Manager
+
+public class NotificationManager {
+
+    public void notify(Notification notification) {
+
+        notification.send();
+    }
+}
+
+Main
+
+Notification notification = new EmailNotification();
+
+NotificationManager manager = new NotificationManager();
+
+manager.notify(notification);
+
+Kal
+
+Notification notification = new SmsNotification();
+
+Sirf object change hua.
+
+Manager class nahi badli.
+
+Program bhi nahi toota.
+
+Ye LSP follow karta hai.
+
+LSP Violation Example
+public interface Payment {
+
+    void pay();
+}
+
+UPI
+
+public class UpiPayment implements Payment {
+
+    @Override
+    public void pay() {
+
+        System.out.println("UPI Payment");
+    }
+}
+
+Fake Payment
+
+public class FakePayment implements Payment {
+
+    @Override
+    public void pay() {
+
+        throw new UnsupportedOperationException();
+    }
+}
+
+Main
+
+Payment payment = new FakePayment();
+
+payment.pay();
+
+Program crash ho gaya.
+
+Interface keh raha tha
+
+pay()
+
+Lekin child ne bola
+
+Main payment nahi karunga.
+
+Ye LSP violation hai.

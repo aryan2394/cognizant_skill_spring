@@ -1,0 +1,80 @@
+Open Close Principle:matlab ek class modification kr liye allowed nahi hai but extnesion allowed hai 
+
+matlab aap existing code mein changes nahi karnege balki code add kar sakte hai 
+
+Open/Closed Principle (OCP)
+Definition
+
+"Software entities (classes, methods, modules) should be open for extension but closed for modification."
+
+Simple Hindi mein:
+
+Open for Extension → Naya feature add kar sako.
+Closed for Modification → Purana tested code baar-baar modify na karna pade.
+
+Yaani existing code ko change kiye bina naye features add karna.
+
+1. Modify (Modification) kya hota hai?
+
+Modify ka matlab hai existing code ko change karna.
+
+Isme tum:
+
+Purani lines edit karte ho.
+Nayi lines usi class mein add karte ho.
+Purana logic hata dete ho.
+Existing method ke andar changes karte ho.
+Example
+
+Pehle code tha:
+
+public class Calculator {
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
+
+Ab tumne isi class mein naya method add kar diya.
+
+public class Calculator {
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int subtract(int a, int b) {
+        return a - b;
+    }
+}
+
+Tumne Calculator class ko modify kiya.
+
+Chahe sirf 5 lines hi add ki ho.
+
+2. Extend (Extension) kya hota hai?
+
+Extend ka matlab hai existing code ko bina touch kiye uski capability badhana.
+
+Yaani existing class waise hi rahegi, aur tum bahar ek nayi class bana doge.
+
+Example
+public interface Payment {
+
+    void pay();
+}
+
+UPI
+
+public class UpiPayment implements Payment {
+
+    @Override
+    public void pay() {
+        System.out.println("UPI Payment");
+    }
+}
+
+Ab Wallet support chahiye.
+
+Tum UpiPayment ko edit nahi karte.
+

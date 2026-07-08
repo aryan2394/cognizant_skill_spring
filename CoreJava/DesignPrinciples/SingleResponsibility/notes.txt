@@ -1,0 +1,158 @@
+Single Responsibility Principle:iska matlab hai ki ek class ko sirf ek hi responsibility ko handle karna chhaiye 
+matlab uske change ka karana sirf ek hona chhaiye 
+
+Single Responsibility Principle (SRP)
+Definition
+
+A class should have only one responsibility and therefore only one reason to change.
+
+Matlab ek class ka sirf ek hi kaam hona chahiye.
+
+Scenario
+
+Maan lo tum Student Management System bana rahe ho.
+
+Jab koi student register karta hai, tab ye kaam hote hain:
+
+Student ko Database mein save karo.
+Welcome Email bhejo.
+Registration ka Log maintain karo.
+
+Ab dekhte hain ki SRP ko violate kaise karte hain aur follow kaise karte hain.
+
+❌ Example 1 (SRP Violation)
+public class StudentService {
+
+    public void registerStudent(Student student) {
+
+        // Save student
+        System.out.println("Student Saved");
+
+        // Send email
+        System.out.println("Welcome Email Sent");
+
+        // Create log
+        System.out.println("Log Created");
+    }
+}
+Problem
+
+Is class ki 3 responsibilities hain.
+
+StudentService
+
+├── Save Student
+├── Send Email
+└── Create Log
+
+Ab socho:
+
+Database change hua → StudentService change hogi.
+Email template change hua → StudentService change hogi.
+Logging framework change hua → StudentService change hogi.
+
+Ek hi class ke multiple reasons to change hain.
+
+Isliye ye Single Responsibility Principle ko violate karti hai.
+
+✅ Example 2 (SRP Follow)
+
+Ab har responsibility ke liye alag class banate hain.
+
+StudentService
+public class StudentService {
+
+    public void saveStudent(Student student) {
+
+        System.out.println("Student Saved");
+    }
+}
+EmailService
+public class EmailService {
+
+    public void sendWelcomeEmail(Student student) {
+
+        System.out.println("Welcome Email Sent");
+    }
+}
+LogService
+public class LogService {
+
+    public void createLog(Student student) {
+
+        System.out.println("Student Registered Successfully");
+    }
+}
+
+Ab dekho
+
+StudentService
+      |
+      | Save Student
+
+EmailService
+      |
+      | Send Email
+
+LogService
+      |
+      | Create Log
+
+Har class ka sirf ek kaam hai.
+
+Ye SRP follow karta hai.
+
+Ab tumhara question
+
+"Agar dusra class dusre class ko use karna chahe to uske object ko use kar le?"
+
+Bilkul.
+
+Suppose StudentService ko email bhejni hai.
+
+StudentService email bhejna nahi jaanti.
+
+EmailService email bhejna jaanti hai.
+
+To StudentService, EmailService ka object use karegi.
+
+Without Spring
+EmailService
+public class EmailService {
+
+    public void sendEmail(Student student) {
+
+        System.out.println("Email Sent");
+    }
+}
+StudentService
+public class StudentService {
+
+    private EmailService emailService = new EmailService();
+
+    public void registerStudent(Student student) {
+
+        System.out.println("Student Saved");
+
+        emailService.sendEmail(student);
+    }
+}
+Flow
+StudentService
+
+Student Saved
+
+        │
+        │
+        ▼
+
+EmailService.sendEmail()
+
+        │
+        ▼
+
+Email Sent
+
+StudentService ne email bhejne ka logic khud nahi likha.
+
+Usne EmailService ka object use kar liya.
