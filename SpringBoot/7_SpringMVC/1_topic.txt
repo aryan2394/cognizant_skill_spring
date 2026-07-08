@@ -1,0 +1,411 @@
+Spring MVC: basically yahi wo web framework hai java ka jo web aappication chalane mein madad karta hai
+@RestController,@GetMapping sab yahi provide karta hai 
+
+SpringBoot kya hai :ye ek framework hai jo basically mvc ko implement karne mein madad karta haiSpringBoot ek Opinionated framework hai
+jo saare manual kaam se bacha leta hai and humein ab autoconfiguration n likhna pade and sab cheez handle n karna pade bus hum apne business logic pe dhyan de sakein
+
+client
+   │
+   ├── GET /hello
+   │   localhost:8080
+   ▼
+HelloController
+@GetMapping("/hello")
+void hello() {
+}
+
+abhi tak humne sprinboot application mein kaha ki /get/hello aayega and uss request ko humara controller layer mein 
+kisis method se map kar denge and uss function ko cahala denege 
+
+lekin /hello request controller toh sun nahi sakta 
+
+tomact sunta hai saare request ko from browser lekin wo toh sirf servlet se hi interact karat hai
+and ye toh normal controller class hai 
+
+The client sends an HTTP request:
+
+GET /users
+
+Tomcat receives the request and creates:
+HttpServletRequest
+HttpServletResponse
+
+Tomcat forwards the request to the appropriate servlet:
+UserServlet
+OrderServlet
+PaymentServlet
+
+The selected servlet processes the request and returns an HTTP response.
+
+Typical responsibilities of a traditional Servlet:
+Request parameter checking (validation)
+Converting JSON into Java objects (deserialization)
+Processing business logic
+Sending the HTTP response
+
+This is the traditional Servlet architecture that Spring MVC improves by introducing a single DispatcherServlet instead of having many individual servlets like UserServlet, OrderServlet, and PaymentServlet.
+
+pahle jaise tomcat kya karta tha ki ek HttpServletRequest and HttpServletResponse banaya and uske paas multiple servlet hote the and wo correct mapping dekh ke usko bhej deta tha with both HttpServletRequest and HttpServletResponse
+phir wo saare kaam karta tha jaise req parameter ko check karna validation karna
+
+
+ab kya hai ki tomcat sirf ek central servet se baat karega that is DispatcherServlet jo ki dekh ke correct mapping karega with the controller 
+
+DispatcherServlet: ye ek central servlet hai jo saare request ko handle karta hai and usko correct mapping karta hai with the controller 
+
+                 POST /users
+                 {
+                 }
+
+Tomcat
++---------------------------+
+| HttpServletReq            |
+| HttpServletRes            |
++---------------------------+
+             │
+             ▼
++---------------------------+
+|     DispatcherServlet     |
++---------------------------+
+             │
+     ┌───────┼────────┐
+     ▼       ▼        ▼
+UserController  OrderController  PaymentController
+
+HttpServletReq
+HttpServletRes
+
+Example:
+
+POST /users
+
+UserController
+
+/users
+createUser(@RequestBody User user) {
+}
+What this diagram explains
+
+In Spring MVC, instead of creating multiple servlets like UserServlet, OrderServlet, and PaymentServlet, there is only one servlet:
+
+DispatcherServlet (also called the Front Controller).
+
+Flow
+Client
+   │
+   ▼
+Tomcat
+   │
+Creates:
+- HttpServletRequest
+- HttpServletResponse
+   │
+   ▼
+DispatcherServlet
+   │
+   ├──► UserController
+   ├──► OrderController
+   └──► PaymentController
+
+For example, when the client sends:
+
+POST /users
+Content-Type: application/json
+
+{
+  "name": "Aryan",
+  "age": 22
+}
+
+The DispatcherServlet:
+
+Receives the request from Tomcat.
+Finds the correct controller (UserController).
+Converts the JSON body into a Java object (User) using @RequestBody.
+Calls:
+@PostMapping("/users")
+public User createUser(@RequestBody User user) {
+    // business logic
+}
+Converts the returned Java object back to JSON.
+Sends the HTTP response to the client.
+
+
+LEKIN KYA YE SAARA KAAM AKELE DispatcherServlet karta hai nahi uske paas multiple classes hote hai 
+
+Here is the text from the whiteboard:
+
+```txt id="mjlwmg"
+HandlerMapping
+
+GET  /student  --> StudentController.getAllStudents()
+
+POST /student  --> StudentController.createStudent()
+```
+
+## What is HandlerMapping?
+
+**HandlerMapping** is a Spring MVC component that tells the **DispatcherServlet** which controller method should handle an incoming request.
+
+Think of it as a **routing table**.
+
+### Example
+
+Suppose you have:
+
+```java
+@RestController
+@RequestMapping("/student")
+public class StudentController {
+
+    @GetMapping
+    public List<Student> getAllStudents() {
+        // ...
+    }
+
+    @PostMapping
+    public Student createStudent(@RequestBody Student student) {
+        // ...
+    }
+}
+```
+
+Spring internally creates mappings like:
+
+| HTTP Request    | Controller Method                    |
+| --------------- | ------------------------------------ |
+| `GET /student`  | `StudentController.getAllStudents()` |
+| `POST /student` | `StudentController.createStudent()`  |
+
+This mapping information is stored by **HandlerMapping**.
+
+### Request Flow
+
+```text id="t78vmz"
+Client
+   │
+   ▼
+GET /student
+   │
+   ▼
+DispatcherServlet
+   │
+   ▼
+HandlerMapping
+   │
+   └── Finds:
+       GET /student
+       ↓
+       StudentController.getAllStudents()
+   │
+   ▼
+Controller Method Executes
+   │
+   ▼
+Response Returned
+```
+
+### Internally
+
+When your application starts, Spring scans annotations like:
+
+* `@RequestMapping`
+* `@GetMapping`
+* `@PostMapping`
+* `@PutMapping`
+* `@DeleteMapping`
+
+and builds a lookup table similar to:
+
+```text id="lcjlwm"
+/student   + GET    -> StudentController.getAllStudents()
+/student   + POST   -> StudentController.createStudent()
+/student/{id} + GET -> StudentController.getStudentById()
+/student/{id} + PUT -> StudentController.updateStudent()
+/student/{id} + DELETE -> StudentController.deleteStudent()
+```
+
+Then, whenever a request arrives, the **DispatcherServlet** asks **HandlerMapping**:
+
+> "Which controller method should handle this request?"
+
+HandlerMapping returns the correct method, and the DispatcherServlet invokes it.
+
+### One-line definition
+
+> **HandlerMapping is the Spring MVC component that maps an incoming HTTP request (URL + HTTP method) to the appropriate controller method.**
+
+leikn ye create kaisa karta hai mappaing ko 
+
+dekho humra ioc container pahle se hi saare beans abanale rakahta hai 
+
+HandlerMapping
+        │
+        ▼
++-------------------+
+|   IoC Container   |
+|                   |
+|  [ Controller ]   |
+|  [ Service ]      |
+|  [ Repository ]   |
++-------------------+
+
+@Controller
+@Service
+@Repository
+
+@PostMapping
+@GetMapping
+What this diagram means
+
+This diagram explains how HandlerMapping works together with the Spring IoC Container.
+
+Step 1: Spring starts
+
+When your Spring Boot application starts:
+
+Spring scans your project.
+It finds classes annotated with:
+@Controller
+@Service
+@Repository
+It creates objects (beans) for them and stores them in the IoC Container.
+
+Example:
+
+@Controller
+public class StudentController { }
+
+@Service
+public class StudentService { }
+
+@Repository
+public class StudentRepository { }
+
+The IoC Container stores:
+
+IoC Container
+--------------
+StudentController Bean
+StudentService Bean
+StudentRepository Bean
+Step 2: HandlerMapping scans controller methods
+
+Spring also scans controller methods having annotations like:
+
+@GetMapping("/student")
+public List<Student> getAllStudents() { }
+@PostMapping("/student")
+public Student createStudent() { }
+
+It creates an internal mapping table:
+
+GET  /student
+      ↓
+StudentController.getAllStudents()
+
+POST /student
+      ↓
+StudentController.createStudent()
+Step 3: Request arrives
+
+Suppose the client sends:
+
+GET /student
+
+Flow:
+
+Client
+   │
+   ▼
+DispatcherServlet
+   │
+   ▼
+HandlerMapping
+   │
+   ▼
+Looks up:
+GET /student
+   │
+   ▼
+Finds StudentController Bean
+(from IoC Container)
+   │
+   ▼
+Calls getAllStudents()
+Relationship between HandlerMapping and IoC Container
+IoC Container stores the controller bean.
+HandlerMapping stores the mapping between URL and controller method.
+When a request comes:
+HandlerMapping finds the correct controller method.
+It gets the controller bean from the IoC Container.
+DispatcherServlet invokes that method.
+
+
+DispatcherServlet also has the Jakson library 
+
+matlab ki jab request aayi toh wo toh aayi http form mein but humein toh java object chhaiye 
+
+toh Jakson kya karta hai ki sabse pahle wo http form mein request ko java object mein convert karta hai  and jo bhi correct entity hai uske saatha
+
+THese is the final structure and flow of Spring MVC 
+
+1. Tomcat → DispatcherServlet
+
+The client sends an HTTP request.
+Tomcat receives it and forwards it to the DispatcherServlet.
+
+2. DispatcherServlet → HandlerMapping
+
+The DispatcherServlet asks:
+
+"Which controller should handle this request?"
+
+3. HandlerMapping → DispatcherServlet
+
+HandlerMapping looks at the URL and HTTP method.
+It returns the matching controller method.
+
+Example:
+
+GET /users
+        ↓
+UserController.getAllUsers()
+
+4. DispatcherServlet → Controller
+
+The DispatcherServlet invokes the appropriate controller method.
+
+Example:
+
+@GetMapping("/users")
+public List<User> getUsers() {
+    return service.getUsers();
+}
+
+5. Controller → DispatcherServlet
+
+The controller executes the business logic (often through a service layer).
+It returns a result (such as a Java object, list, or view name) to the DispatcherServlet.
+
+6. DispatcherServlet → Tomcat → Client
+
+The DispatcherServlet converts the result into an HTTP response (for example, JSON in a REST API).
+It gives the response to Tomcat.
+Tomcat sends the final HTTP response back to the client.
+One-line summary
+Client
+   ↓
+Tomcat
+   ↓
+DispatcherServlet
+   ↓
+HandlerMapping
+   ↓
+Controller
+   ↓
+DispatcherServlet
+   ↓
+Tomcat
+   ↓
+Client

@@ -1,0 +1,29 @@
+dekho humine maninly bana hai web apps using java toh kya hum core ajava use karke nahi bana sakte like 
+ha bana toh sakte hai we have java.net jo ki port ko listen karta hai 
+
+leikn uske request ko smajhna and response send karna to the user is difficult matlab hum kisi 
+client ne kya request kiya hai //get ya /put ye smajh nahi skata java and kya response bhena hai kuch nahi 
+
+
+toh ye saara kaam jo manualy humein krana pad raha hai agar ye saara kaam koi kar de toh 
+
+req ko handle karna ,method ka naam identify karna,req paarmas identify karana hai and http response bhejna hai and etc 
+
+
+agar hum isko ek container mein daal de and isko humara koi handle kar de toh 
+
+here comes servets and servets container
+
+Sevets container:ek container hai jo ye saara manual kaam khud se handle karta hai and uss container ka naam hai Tomcat 
+Tomcat basically ek servets container jo ki saara manually kaam k  khud se karta hai 
+
++-----------------------------------------------+
+|          Servlet Container (Tomcat)           |
+|-----------------------------------------------|
+| Receives the HTTP Request                     |
+| Creates Request & Response Objects            |
+| Finds the Correct Servlet                     |
+| Executes the Servlet                          |
+| Sends the HTTP Response Back                  |
++-----------------------------------------------+
+
