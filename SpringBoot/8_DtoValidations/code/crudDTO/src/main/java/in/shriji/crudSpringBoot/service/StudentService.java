@@ -28,17 +28,18 @@ public class StudentService {
         return studentResponseDTO;
     }
 
-    public Student getStudent(Long id) {
+    public CreateStudentResponseDTO getStudent(Long id) {
         Optional<Student> studentResp = studentRepository.findByIdAndDeletedFalse(id);
         if (studentResp.isPresent()) {
-            return studentResp.get();
+            return mapToDto(studentResp.get());
         }
         return null;
     }
 
-    public List<Student> findAll() {
+    public List<CreateStudentResponseDTO> findAll() {
         List<Student> studentList = studentRepository.findByAndDeletedIsFalse();
-        return studentList;
+
+        return studentList.stream().map(this::mapToDto).toList();
     }
 
     public UpdateStudentResponseDTO updateStudent(Long id, UpdateStudentRequestDTO updateStudentRequestDTO) {
@@ -47,11 +48,11 @@ public class StudentService {
             return null;
         }
         Student studentToSave = studentResp.get();
-        studentToSave.setSubject(studentToSave.getSubject());
-        studentToSave.setName(studentToSave.getName());
-        studentToSave.setRollNo(studentToSave.getRollNo());
-        studentToSave.setEmail(studentToSave.getEmail());
-        studentToSave.setRollNo(studentToSave.getRollNo());
+        studentToSave.setSubject(updateStudentRequestDTO.getSubject());
+        studentToSave.setName(updateStudentRequestDTO.getName());
+        studentToSave.setRollNo(updateStudentRequestDTO.getRollNo());
+        studentToSave.setRollNo(updateStudentRequestDTO.getRollNo());
+        studentToSave.setAge(updateStudentRequestDTO.getAge());
         studentToSave.setDeleted(false);
         Student student = studentRepository.save(studentToSave);
         return mapToUpdateDTO(student);
@@ -115,7 +116,7 @@ public class StudentService {
         updateStudentResponseDTO.setEmail(student.getEmail());
         updateStudentResponseDTO.setRollNo(student.getRollNo());
         updateStudentResponseDTO.setSubject(student.getSubject());
-        updateStudentResponseDTO.setDeleted(student.isDeleted());
+        updateStudentResponseDTO.setMessage("message updated successfully");
         updateStudentResponseDTO.setUpdatedAt(student.getUpdatedAt());
         return updateStudentResponseDTO;
     }

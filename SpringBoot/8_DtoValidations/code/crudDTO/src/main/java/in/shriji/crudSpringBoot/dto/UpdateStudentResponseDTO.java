@@ -9,7 +9,15 @@ public class UpdateStudentResponseDTO {
     private String email;
     private int rollNo;
     private String subject;
-    private boolean deleted;
+    private String message;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     private LocalDateTime updatedAt;
 
@@ -61,13 +69,6 @@ public class UpdateStudentResponseDTO {
         this.subject = subject;
     }
 
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;

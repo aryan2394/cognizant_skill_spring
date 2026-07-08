@@ -1,0 +1,28 @@
+Spring Boot Exception Handling – Summary Notes
+Request
+GET /api/students/{id}
+Host: localhost:8080
+Possible Outcomes
+Scenario	HTTP Status	Description
+Student exists	200 OK	Return student data successfully.
+Student not found	404 Not Found	Requested resource does not exist.
+Invalid ID format	400 Bad Request	Input/path variable is invalid (e.g., abc instead of 1).
+Database is down	500 Internal Server Error	Backend cannot communicate with the database.
+Server is down	No HTTP Response	Application is not running (Connection Refused/Timeout).
+Backend bug (NullPointerException, etc.)	500 Internal Server Error	Unexpected exception in the application.
+Why Exception Handling?
+
+Without exception handling:
+
+Default Spring error response
+Stack trace may be exposed
+Inconsistent error format
+Difficult for frontend to understand
+
+With exception handling:
+
+Meaningful error messages
+Consistent response format
+Proper HTTP status codes
+Better user experience
+Professional APIs

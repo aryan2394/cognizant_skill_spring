@@ -30,9 +30,9 @@ public class StudentController {
                 .body(createdStudent);
     }
     @GetMapping("/get/{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable Long id)
+    public ResponseEntity<CreateStudentResponseDTO> getStudent(@PathVariable Long id)
     {
-        Student studentResp=studentService.getStudent(id);
+        CreateStudentResponseDTO studentResp=studentService.getStudent(id);
         if(studentResp==null)
         {
             return ResponseEntity.notFound().build();
@@ -42,9 +42,9 @@ public class StudentController {
                 .body(studentResp);
     }
     @GetMapping("/getAll")
-    public ResponseEntity<List<Student>> getAllStudent()
+    public ResponseEntity<List<CreateStudentResponseDTO>> getAllStudent()
     {
-        List<Student> studentList=studentService.findAll();
+        List<CreateStudentResponseDTO> studentList=studentService.findAll();
         if(studentList.isEmpty())
         {
             return ResponseEntity.notFound().build();
