@@ -1,0 +1,187 @@
+b aate hain ISP (Interface Segregation Principle) par.
+
+Ye principle bahut simple hai agar tum iski ek line samajh lo.
+
+Interface Segregation Principle (ISP)
+Definition
+
+Clients should not be forced to depend on interfaces they do not use.
+
+Simple Hindi mein:
+
+Kisi class ko aise methods implement karne ke liye force nahi karna chahiye jinki usse zarurat hi nahi hai.
+
+Matlab:
+
+Chhote aur specific interfaces banao.
+Ek bada interface mat banao jisme har tarah ke methods bhar diye ho.
+❌ Wrong Example (ISP Violation)
+
+Maan lo tumne ek interface banaya.
+
+public interface Worker {
+
+    void work();
+
+    void eat();
+
+    void sleep();
+}
+
+Ab Robot bhi worker hai.
+
+public class Robot implements Worker {
+
+    @Override
+    public void work() {
+        System.out.println("Robot is working");
+    }
+
+    @Override
+    public void eat() {
+        // Robot khana nahi khata
+    }
+
+    @Override
+    public void sleep() {
+        // Robot sota nahi hai
+    }
+}
+Problem
+
+Robot ko implement karna pada:
+
+eat()
+sleep()
+
+Jabki Robot ko in methods ki zarurat hi nahi.
+
+Ye ISP violate karta hai.
+
+✅ Correct Example (ISP Follow)
+
+Ek bada interface banane ke bajay usse divide kar do.
+
+Workable
+public interface Workable {
+
+    void work();
+}
+Eatable
+public interface Eatable {
+
+    void eat();
+}
+Sleepable
+public interface Sleepable {
+
+    void sleep();
+}
+Human
+public class Human implements Workable, Eatable, Sleepable {
+
+    @Override
+    public void work() {
+        System.out.println("Human Working");
+    }
+
+    @Override
+    public void eat() {
+        System.out.println("Human Eating");
+    }
+
+    @Override
+    public void sleep() {
+        System.out.println("Human Sleeping");
+    }
+}
+Robot
+public class Robot implements Workable {
+
+    @Override
+    public void work() {
+        System.out.println("Robot Working");
+    }
+}
+
+Robot sirf wahi implement kar raha hai jo usse chahiye.
+
+Ye ISP follow karta hai.
+
+Spring Boot Example
+
+Maan lo tumhare project mein notification system hai.
+
+❌ Tumne ek interface bana diya:
+
+public interface Notification {
+
+    void sendEmail();
+
+    void sendSMS();
+
+    void sendPushNotification();
+}
+
+Ab Email service:
+
+public class EmailService implements Notification {
+
+    @Override
+    public void sendEmail() {
+        System.out.println("Email Sent");
+    }
+
+    @Override
+    public void sendSMS() {
+
+    }
+
+    @Override
+    public void sendPushNotification() {
+
+    }
+}
+
+Problem?
+
+EmailService ko sendSMS() aur sendPushNotification() implement karne pad rahe hain.
+
+Ye ISP violation hai.
+
+Correct Design
+public interface EmailNotification {
+
+    void sendEmail();
+}
+public interface SmsNotification {
+
+    void sendSMS();
+}
+public interface PushNotification {
+
+    void sendPushNotification();
+}
+
+Email Service
+
+public class EmailService implements EmailNotification {
+
+    @Override
+    public void sendEmail() {
+        System.out.println("Email Sent");
+    }
+}
+
+SMS Service
+
+public class SmsService implements SmsNotification {
+
+    @Override
+    public void sendSMS() {
+        System.out.println("SMS Sent");
+    }
+}
+
+Ab har class sirf wahi interface implement kar rahi hai jo uske kaam ka hai.
+

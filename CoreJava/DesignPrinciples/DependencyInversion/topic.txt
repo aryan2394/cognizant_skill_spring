@@ -1,0 +1,229 @@
+Dependency Inversion Principle (DIP)
+
+Ye principle pehli baar padhne par difficult lagta hai, lekin example se bahut simple ho jata hai.
+
+Definition
+
+High-level modules should not depend on low-level modules. Both should depend on abstractions.
+
+Aur
+
+Abstractions should not depend on details. Details should depend on abstractions.
+
+Simple Hindi mein:
+
+Ek class ko directly kisi implementation (concrete class) par depend nahi karna chahiye. Dono ko interface (abstraction) par depend karna chahiye.
+
+Sabse pehle "Dependency" samjho
+
+Suppose ye class hai.
+
+public class EmailService {
+
+    public void sendEmail() {
+        System.out.println("Email Sent");
+    }
+}
+
+Aur ek aur class hai.
+
+public class StudentService {
+
+    private EmailService emailService = new EmailService();
+
+    public void registerStudent() {
+
+        System.out.println("Student Saved");
+
+        emailService.sendEmail();
+    }
+}
+
+Yahan
+
+StudentService
+        |
+        |
+        ▼
+EmailService
+
+StudentService EmailService par depend karti hai.
+
+Isi ko dependency kehte hain.
+
+Problem kya hai?
+
+Aaj Email use kar rahe ho.
+
+Kal client bolta hai
+
+Email nahi bhejni.
+
+SMS bhejna hai.
+
+Ab kya karoge?
+
+Purani class change karoge.
+
+private SmsService smsService = new SmsService();
+
+Phir WhatsApp.
+
+private WhatsAppService whatsAppService = new WhatsAppService();
+
+Har baar StudentService modify hogi.
+
+Ye DIP violate karta hai.
+
+DIP Follow karte hain
+
+Step 1
+
+Interface banao.
+
+public interface Notification {
+
+    void send();
+}
+
+Step 2
+
+Email implementation
+
+public class EmailService implements Notification {
+
+    @Override
+    public void send() {
+
+        System.out.println("Email Sent");
+    }
+}
+
+Step 3
+
+SMS implementation
+
+public class SmsService implements Notification {
+
+    @Override
+    public void send() {
+
+        System.out.println("SMS Sent");
+    }
+}
+
+Step 4
+
+StudentService
+
+public class StudentService {
+
+    private Notification notification;
+
+    public StudentService(Notification notification) {
+
+        this.notification = notification;
+    }
+
+    public void registerStudent() {
+
+        System.out.println("Student Saved");
+
+        notification.send();
+    }
+}
+
+Notice karo.
+
+Ab StudentService ye nahi jaanti
+
+Email hai
+SMS hai
+WhatsApp hai
+
+Usse sirf itna pata hai
+
+Notification
+
+Main class
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Notification notification = new EmailService();
+
+        StudentService service = new StudentService(notification);
+
+        service.registerStudent();
+    }
+}
+
+Output
+
+Student Saved
+Email Sent
+
+Kal SMS use karna hai.
+
+Sirf ek line badlegi.
+
+Notification notification = new SmsService();
+
+StudentService ko touch nahi karna.
+
+Ye DIP hai.
+
+Spring Boot mein DIP
+
+Yahi kaam Spring automatically karta hai.
+
+Interface
+
+public interface Notification {
+
+    void send();
+}
+
+Email
+
+@Service
+public class EmailService implements Notification {
+
+    @Override
+    public void send() {
+
+        System.out.println("Email Sent");
+    }
+}
+
+StudentService
+
+@Service
+public class StudentService {
+
+    private final Notification notification;
+
+    public StudentService(Notification notification) {
+        this.notification = notification;
+    }
+
+    public void registerStudent() {
+
+        System.out.println("Student Saved");
+
+        notification.send();
+    }
+}
+
+Spring khud Notification ki implementation inject kar deta hai.
+
+Isi ko Dependency Injection kehte hain.
+
+Aur Dependency Injection, Dependency Inversion Principle ko implement karne ka ek common tareeka hai.
+
+Note: DIP aur Dependency Injection (DI) same cheez nahi hain.
+
+DIP = Design Principle.
+DI = Us principle ko implement karne ki technique.
+
