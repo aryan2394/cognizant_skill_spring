@@ -1,0 +1,412 @@
+maanlo aisa ho ki user ne galat input daal diya ho ya aao jo files search kar rahe the wo nahi mili ya aapne divide by zero 
+kar diya hai matlab there are multiple conditions jaha pe errors aa sakte hai 
+toh aapko usko handle karna apdega warna user ka problem ya website nahi hclage aaur wo bolgea bhai sab kharab hai tumhara code and website sab 
+
+Exception
+
+Definition:
+A recoverable (handleable) abnormal condition
+that occurs during program execution.(matlab code execute karte samay wo galti huwi hai and hum usko sahi kar sakte hai jaise ki /0 toh hum inout lete samay hi bol denge 0 is not allowed ya aap ye galti sahi kar lo)
+
+Examples:
+1. File is missing
+2. Wrong input
+3. Divide by zero
+
+Example:
+int num = a / b;
+
+errors:iska matlab hai ki aab aapke code mein error aa gaya hai matlab ab aap isko sahi nahi kar sakte hai jaise ki error mein StackOverflowError(jab stack fill ho jaata hai) ya OutOfMemoryError(ye tab aata hai jab heap bhar jaata hai)
+
+Why to handle Exception?
+iske peeche ka reason hai ki maanlo aapke code mein kahi exception aa gaya aur aap usko handle nahi kar rahe ho toh wahi ruk jayega aur aage ka code nahi chalega
+
+jaise int a=5;
+int b=4;
+sout("step 1");
+sout(a/b);
+sout("step2");
+
+output is :step 1
+kyonki ek baar exception aaya then code ruk jata hai isliye isko handle karna mushkil hai 
+
+How to handle? it 
+
+sabse pahle samajte hai flow of exception hota kaise hai ?and gar hum usko handle nahi karenge toh kaun karta hai usko handle 
+
+Exception hamesha us method se start hoti hai jahan error hua. Agar us method me handle nahi hoti, to call stack ke through parent method → uske parent → ... → main() tak propagate karti hai.
+ Agar main() me bhi handle na ho, to JVM exception ka poora stack trace print karke program terminate kar deti hai.
+
+
+ Code
+public class Demo2 {
+
+    public static void main(String[] args) {
+        int a = 5;
+        int b = 0;
+
+        methodA(a, b);
+    }
+
+    private static void methodA(int a, int b) {
+        methodB(a, b);
+    }
+
+    private static void methodB(int a, int b) {
+        System.out.println(a / b);
+    }
+}
+Step 1: JVM starts execution
+
+JVM sabse pehle
+
+main()
+
+ko call karta hai.
+
+Stack
+-------------
+|  main()   |
+-------------
+Step 2: main() calls methodA()
+methodA(a, b);
+
+ab methodA() stack me push ho jayega.
+
+Stack
+-------------
+| methodA() |
+-------------
+|  main()   |
+-------------
+Step 3: methodA() calls methodB()
+methodB(a, b);
+
+ab methodB() bhi stack me aa gaya.
+
+Stack
+-------------
+| methodB() |
+-------------
+| methodA() |
+-------------
+|  main()   |
+-------------
+Step 4: Exception occurs
+
+Ab execute hota hai
+
+System.out.println(a / b);
+
+Actual values
+
+5 / 0
+
+Java integer ko zero se divide nahi kar sakta.
+
+Isliye yahin par
+
+ArithmeticException
+
+throw hoti hai.
+
+Ye exception object internally kuch aisa hota hai
+
+new ArithmeticException("/ by zero")
+
+Aur JVM us line ko wahi rok deti hai.
+
+Step 5: JVM searches in methodB()
+
+Sabse pehle JVM dekhegi
+
+methodB()
+
+ke andar koi
+
+try{
+   ...
+}
+catch(...)
+
+hai ya nahi.
+
+Jaise
+
+private static void methodB(int a,int b){
+
+    try{
+        System.out.println(a/b);
+    }
+    catch(ArithmeticException e){
+        System.out.println("Handled");
+    }
+
+}
+
+Agar mil gaya
+
+✔ Exception yahi handle ho jayega.
+
+Agar nahi mila
+
+❌ Exception upar bhej di jayegi.
+
+Is process ko kehte hain
+
+Exception Propagation
+
+Step 6: Goes to methodA()
+
+Ab JVM
+
+methodB()
+
+ko stack se hata deti hai.
+
+-------------
+| methodA() |
+-------------
+|  main()   |
+-------------
+
+Aur check karti hai
+
+methodA()
+
+me koi catch hai?
+
+private static void methodA(int a,int b){
+
+    try{
+        methodB(a,b);
+    }
+    catch(ArithmeticException e){
+        System.out.println("Handled in A");
+    }
+
+}
+
+Agar catch mil gaya
+
+Exception yahin handle.
+
+Agar nahi
+
+Phir aur upar.
+
+Step 7: Goes to main()
+
+Ab
+
+methodA()
+
+bhi stack se remove ho jayega.
+
+Stack
+
+-------------
+|  main()   |
+-------------
+
+JVM check karegi
+
+main()
+
+me koi catch hai?
+
+public static void main(String[] args){
+
+    try{
+        methodA(5,0);
+    }
+    catch(Exception e){
+        System.out.println("Handled in Main");
+    }
+
+}
+
+Agar mil gaya
+
+Program continue karega.
+
+Agar nahi mila
+
+To next step.
+
+Step 8: JVM handles it
+
+Agar
+
+methodB()
+
+↓
+
+methodA()
+
+↓
+
+main()
+
+kahin bhi exception handle nahi hui
+
+To exception JVM ke paas pahunch jaati hai.
+
+Ab JVM
+
+Program terminate kar deti hai.
+Stack trace print karti hai.
+
+Output
+
+Exception in thread "main"
+java.lang.ArithmeticException: / by zero
+    at Demo2.methodB(Demo2.java:13)
+    at Demo2.methodA(Demo2.java:9)
+    at Demo2.main(Demo2.java:6)
+
+
+
+Goal:
+
+→ When an Exception occurs, don't Crash.
+
+Handle it & Continue.
+____________________________
+
+try {
+
+    int a = 5;
+    int b = 0;
+
+    Syso(a / b);
+
+}                      Risky
+                         Code
+
+
+Catch (Exception e) {
+
+}                       Reactive
+                         Code
+
+AB trycatch ke baad kaise flow hoga 
+
+
+public class Demo3 {
+
+    public static void main(String[] args) {
+
+        // Exception handling
+
+        System.out.println("Step 1");
+
+        try {
+            int a = 5;
+            int b = 0;
+
+            System.out.println(a / b);   // Exception yahin aayegi
+        }
+        catch (ArithmeticException e) {
+            System.out.println("Division by zero is not allowed");
+        }
+
+        System.out.println("Step 2");
+    }
+}
+Flow of Execution
+Step 1
+
+JVM main() method ko call karti hai.
+
+main()
+Step 2
+
+Execute hota hai
+
+System.out.println("Step 1");
+
+Output
+
+Step 1
+
+Ab tak sab normal hai.
+
+Step 3
+
+JVM try block me enter karti hai.
+
+try {
+
+    int a = 5;
+    int b = 0;
+
+    System.out.println(a / b);
+
+}
+Step 4
+
+Ye line execute hoti hai
+
+System.out.println(a / b);
+
+Actual calculation
+
+5 / 0
+
+Java me integer ko zero se divide nahi kar sakte.
+
+To JVM internally exception create karti hai
+
+new ArithmeticException("/ by zero");
+Step 5
+
+Ab JVM check karegi
+
+Kya is try block ke baad koi matching catch hai?
+
+catch(ArithmeticException e)
+
+Exception bhi
+
+ArithmeticException
+
+Catch bhi
+
+ArithmeticException
+
+✔ Match mil gaya.
+
+Step 6
+
+Exception handle ho gayi.
+
+Ab JVM try block ki baaki lines execute nahi karegi.
+
+Seedha catch block me jump karegi.
+
+catch (ArithmeticException e) {
+    System.out.println("Division by zero is not allowed");
+}
+
+Output
+
+Division by zero is not allowed
+Step 7
+
+Catch block complete hone ke baad JVM normal execution continue karti hai.
+
+Next line
+
+System.out.println("Step 2");
+
+Output
+
+Step 2
+Final Output
+Step 1
+Division by zero is not allowed
+Step 2
+
+Program crash nahi hua.
+
