@@ -1,0 +1,66 @@
+encapsulation:data and function ko hum ek class mein wrap kar dete hai and unrestricted access ko rok dete hai 
+
+jaise maanlo class BankAccount:
+private int balance = 100000;
+
+public void deposite(int amount)
+{
+    
+    balance = balance + amount;
+    System.out.println("Deposite amount is " +amount );
+    System.out.println("current balance is " + balance);
+
+}
+
+public void withdraw(int amount)
+{
+    if (amount<=balance)
+    {
+
+        balance = balance - amount;
+        System.out.println("Withdraw amount is "+amount);
+        System.out.println("Current balance is "+balance);
+    }
+    else
+    {
+        System.out.println("Insufficient balance");
+    }
+}
+
+public void getBalance()
+{
+    System.out.println("Balance is "+balance);
+}
+
+
+class Test {
+
+    public static void main(String args[])
+
+    {
+
+        BankAccount b = new BankAccount();
+
+        b.getBalance();
+
+        b.deposite(10000);
+
+        b.withdraw(50000);
+
+        b.withdraw(90000);
+
+    }
+
+}
+
+matlab sabse pahli baat toh aap apne saare variable ko private banaoge and getter,setter method banaoge
+lekin sabse liye nahi ab aape balnace toh bana diya hai 
+
+Maanlo BankAccount b=new BankAccount();
+b.balance = 100000;
+
+balance ye toh chalo aapne hata diya hai ki aap direct use nahi kar sakte hai b.balance=1000 nahi allowed 
+
+lekin aap ye bhi nahi kar sakte hai ki setBalance(1000000)
+
+because aap toh balance tabhi update hoga jab withdraw ya deposit hoga 

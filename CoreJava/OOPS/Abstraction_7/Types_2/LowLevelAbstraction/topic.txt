@@ -1,0 +1,38 @@
+as hum jaante hai abstraction is hiding implemantion details and showing the neccsary things to tthe user 
+because user ko rea world cheez karne mein aasani ho 
+
+Types of Abstraction
+
+1:Low Level:ismein kya hota hai ki hum ismein bhi implemantion details ko hide kar dete hai 
+    and user ko sirf wo methods dikhate jisse uska kaam chal sakein like Example
+
+Class ArrayList{
+    String something;
+    int something;
+    public void add()
+    {
+        //something that add when user give some values 
+    }
+    public void remove(int num)
+    {
+        delete the num from that arraylist
+    }
+}
+
+jab hum ArrayList ka object banate hai toh hum yahai karte hai ki iska object banate hai and use karna start kar dete hai 
+humein matlab nahi hai ki wo add and remove function anadra kaise kaam karte hai that is abstraction only
+
+main()
+{
+    ArrayList a=new ArrayList<>();
+    a.add(4);
+    a.remove(4);
+    humein nahi pata hai nadra se add ya remove kaise implenenated hai humein ek function ya button de diya hai gaya and 
+    taaki hum uss function ko use kar sakein n ki andar ke details ko jaane ke bina 
+}
+
+LOW Level ABSTRACTION CAN BE IMPLEMENTED NORMALLY USING ENCAPSULATION KI AAP CLASS BANAO AND USMEIN 
+MATLAB KO BANAO AND TAAKI KOI DIRECLTY USMEIN KOI CLASS MEIN CHEDEKANI N KAR SAKEIN ISKE LIYE HI HUM
+USE IT
+by the method provided 
+

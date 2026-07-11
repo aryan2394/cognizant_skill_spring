@@ -1,0 +1,106 @@
+Maan lo hamare paas Student class hai.
+
+class Student {
+    String name;
+    int age;
+}
+
+Object banaya:
+
+Student s1 = new Student();
+
+ab agar maanlo aapne s1.name and s1.age assign n ahi kiya tab 
+and trying to print the s1.name and s1.age ly aayega error hi ana achahiye kyonki humare paas dabbe hai lekin usmein koi values toh hai hi nahi 
+
+lekin nahi error nahi aata hai because 
+
+
+Constructor kya hota hai?
+
+Constructor ek special method hota hai jo object bante hi automatically call ho jata hai.
+
+Simple definition:
+
+Object ko initialize karne ke liye constructor ka use kiya jata hai.
+
+Problem kya thi?
+
+Maan lo hamare paas Student class hai.
+
+class Student {
+    String name;
+    int age;
+}
+
+Object banaya:
+
+Student s1 = new Student();
+
+Ab name aur age ki value kya hai?
+
+name = null
+age = 0
+
+Hume har baar manually value deni padegi:
+
+s1.name = "Aryan";
+s1.age = 21;
+
+Agar 1000 students ho gaye to?
+
+Student s1 = new Student();
+Student s2 = new Student();
+Student s3 = new Student();
+...
+
+Har baar values set karni padengi.
+
+Isi problem ko solve karne ke liye constructor aaya.
+
+Constructor ka kaam
+
+Object bante hi uski initial values set kar dena.
+
+class Student {
+
+    String name;
+    int age;
+
+    Student() {
+        name = "Unknown";
+        age = 18;
+    }
+}
+
+Object:
+
+Student s1 = new Student();
+
+Jaisi hi object bana:
+
+Student()
+
+automatically call ho gaya.
+
+Result:
+
+name = "Unknown"
+age = 18
+Constructor kab call hota hai?
+
+Jab bhi new keyword use hota hai.
+
+Student s1 = new Student();
+
+Flow:
+
+new Student()
+
+↓
+Memory allocate hui
+
+↓
+Constructor call hua
+
+↓
+Object ready

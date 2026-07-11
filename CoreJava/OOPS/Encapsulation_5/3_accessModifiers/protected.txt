@@ -1,0 +1,172 @@
+Sabse Pehle Question
+
+Java ne protected banaya hi kyon?
+
+Socho tumhare paas ye package hai:
+
+animals (package)
+
+Animal.java
+Dog.java
+Cat.java
+
+Aur ek doosra package hai:
+
+pets (package)
+
+PetDog.java
+
+Ab PetDog class, Animal ko inherit karti hai.
+
+class PetDog extends Animal {
+
+}
+
+Question:
+
+Kya PetDog ko Animal ki kuch cheezein use karni chahiye?
+
+👉 Haan, kyunki PetDog, Animal ka hi child (subclass) hai.
+
+Lekin wo different package me hai.
+
+Agar variable default hota, to access nahi milta.
+
+Isi problem ko solve karne ke liye protected aaya.
+
+protected ka Meaning
+
+protected = Same Package + Different Package ki Subclass
+
+Isko yaad rakho:
+
+protected
+
+↓
+
+Same Package
+        +
+Subclass (Different Package)
+Example 1 (Same Package)
+college
+
+├── Student.java
+├── Teacher.java
+Student.java
+class Student {
+
+    protected int age = 20;
+
+}
+Teacher.java
+class Teacher {
+
+    public static void main(String[] args) {
+
+        Student s = new Student();
+
+        System.out.println(s.age);
+
+    }
+
+}
+
+✔ Allowed
+
+Kyun?
+
+Same package hai.
+
+Example 2 (Different Package + NO Inheritance)
+college
+
+Student.java
+
+school
+
+Demo.java
+
+Student.java
+
+package college;
+
+public class Student {
+
+    protected int age = 20;
+
+}
+
+Demo.java
+
+package school;
+
+import college.Student;
+
+public class Demo {
+
+    public static void main(String[] args) {
+
+        Student s = new Student();
+
+        System.out.println(s.age);
+
+    }
+
+}
+
+❌ Error
+
+Kyun?
+
+Package alag hai.
+
+Aur Demo, Student ki subclass bhi nahi hai.
+
+Example 3 (Different Package + Inheritance)
+college
+
+Student.java
+
+school
+
+Demo.java
+
+Student.java
+
+package college;
+
+public class Student {
+
+    protected int age = 20;
+
+}
+
+Demo.java
+
+package school;
+
+import college.Student;
+
+public class Demo extends Student {
+
+    public static void main(String[] args) {
+
+        Demo d = new Demo();
+
+        System.out.println(d.age);
+
+    }
+
+}
+
+✔ Allowed
+
+Kyun?
+
+Demo
+
+extends Student
+
+Matlab subclass hai.
+
+Aur protected subclass ko access deta hai.

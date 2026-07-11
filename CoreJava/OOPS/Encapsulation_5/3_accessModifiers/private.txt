@@ -1,0 +1,58 @@
+dekho private ka matlab :ki tum ab iss class ke bahar isko ab acces nahi kar sakte object banake ya kuch bhi 
+
+private varibales ho ya private method jo bhi aap bana doge phir wo object call karke uspe ab kuch nahi ho sakta hai 
+
+private Variable
+Definition
+
+Private variable ko sirf usi class ke andar access kiya ja sakta hai. Bahar ki koi class us variable ko directly access ya modify nahi kar sakti.
+
+Example
+class Student {
+
+    private int age;
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
+Student s = new Student();
+
+s.age = 20;      // ❌ Error
+
+s.setAge(20);    // ✅ Correct
+Why use private variables?
+✅ Data Hiding
+✅ Data Security
+✅ Validation laga sakte hain
+✅ Encapsulation achieve hoti hai
+✅ Data ko sirf controlled methods (getter/setter) ke through access karte hain
+private Method
+Definition
+
+Private method ko sirf usi class ke andar call kiya ja sakta hai. Dusri class us method ko call nahi kar sakti.
+
+Example
+class Student {
+
+    private void calculateMarks() {
+        System.out.println("Calculating...");
+    }
+
+    public void result() {
+        calculateMarks();   // ✅ Allowed
+    }
+}
+Student s = new Student();
+
+s.calculateMarks();   // ❌ Error
+
+s.result();           // ✅ Correct
+Why use private methods?
+✅ Internal helper methods ko hide karne ke liye
+✅ User ko unnecessary methods dikhane se bachane ke liye
+✅ Sirf class ke andar use hone wali logic ko protect karne ke liye

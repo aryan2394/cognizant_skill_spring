@@ -1,0 +1,265 @@
+Objects Deep Dive (Java)
+Example Class
+class Student {
+    String name;
+    int age;
+    int rollNo;
+    String college;
+}
+
+Creating an Object
+Student s1 = new Student();
+
+This single line performs several operations.
+
+Step 5: Assignment
+Student s1 = new Student();
+
+After object creation:
+
+Stack                  Heap
+
++-------+          +------------------+
+| s1 ---|--------->| Student Object   |
++-------+          | name = null      |
+                   | age = 0          |
+                   | rollNo = 0       |
+                   | college = null   |
+                   +------------------+
+
+AB STACK mein refenece variable bana hai and object heap mein toh ye kuch space lenege kitna kitna 
+
+Step 2: Object Creation
+Student s1 = new Student();
+
+Is line mein 2 alag cheezein banti hain.
+
+1. Reference Variable (s1)
+Student s1;
+Stack mein banta hai.
+Object ko store nahi karta.
+Sirf object ka address store karta hai.
+
+Size:
+
+32-bit JVM → 4 Bytes
+64-bit JVM → Usually 8 Bytes
+
+Memory
+
+Stack
+
+s1 = Address
+2. Student Object
+new Student();
+
+Ye Heap mein banta hai.
+
+Iske andar saare instance variables aate hain.
+
+Student Object
+
+name
+age
+rollNo
+college
+Object ki Size Kaise Calculate Hoti Hai?
+
+Object ke andar har variable apni memory leta hai.
+
+name
+String name;
+
+Ye String nahi rakhta.
+
+Sirf String object ka address rakhta hai.
+
+4 Bytes (32-bit)
+
+ya
+
+8 Bytes (64-bit)
+age
+int age;
+
+Primitive hai.
+
+4 Bytes
+rollNo
+int rollNo;
+4 Bytes
+college
+String college;
+
+Ye bhi reference hai.
+
+4 Bytes (32-bit)
+
+ya
+
+8 Bytes (64-bit)
+Agar 32-bit JVM ho
+name      4
+age       4
+rollNo    4
+college   4
+
+----------------
+Total = 16 Bytes
+
+Isi wajah se sir ne image mein 16 Bytes likha hai.
+
+Memory Diagram
+STACK
+
+s1 (Reference - 4/8 Bytes)
+        |
+        |
+        v
+
+HEAP
+
+Student Object
+
+name -----------+
+age = 0         |
+rollNo = 0      |
+college -------+|
+               ||
+               vv
+
+        String Objects
+String Kya Hai?
+
+Bahut important point.
+
+String name;
+
+String primitive nahi hai.
+
+Ye bhi ek Class hai.
+
+Isliye
+
+String name;
+
+Bilkul waise hi hai jaise
+
+Student s1;
+
+Dono reference variables hain.
+
+Difference sirf itna hai ki ek Student object ko point karta hai aur doosra String object ko.
+
+object size but kitna hoga Total
+
+Tumhare object ka actual size kuch aisa ho sakta hai:
+
+Header        12 bytes
+Fields        24 bytes
+Padding        4 bytes
+-----------------------
+Total         40 bytes
+
+Ek object exactly kitna space lega?
+
+👉 Java mein iska ek fixed answer nahi hota.
+
+Kyun?
+
+Kyuki object ka total size =
+
+Object Size =
+Object Header
++ Instance Variables
++ Padding (Alignment)
+
+Chaliye detail mein samajhte hain.
+
+Example
+class Student {
+    String name;
+    int age;
+    int rollNo;
+    String college;
+}
+Step 1: Instance Variables ki Size
+
+Assume 64-bit JVM.
+
+Variable	Size
+String name	8 bytes (reference)
+int age	4 bytes
+int rollNo	4 bytes
+String college	8 bytes
+
+Total fields:
+
+8 + 4 + 4 + 8 = 24 bytes
+
+Lekin object sirf 24 bytes ka nahi hota.
+
+Step 2: Object Header
+
+Har object ke saath JVM kuch extra information bhi rakhti hai.
+
+Jaise:
+
+Object lock information
+Hashcode
+Kis class ka object hai
+
+Ye sab Object Header mein hota hai.
+
+Modern 64-bit JVM mein generally
+
+Object Header ≈ 12–16 bytes
+
+(Exact JVM implementation par depend karta hai.)
+
+Step 3: Padding
+
+JVM memory ko align karti hai.
+
+Suppose
+
+Header = 12 bytes
+
+Fields = 24 bytes
+
+Total = 36 bytes
+
+Lekin JVM object ko 8-byte boundary par align karti hai.
+
+Toh
+
+36
+
+ko
+
+40 bytes
+
+ya
+
+48 bytes
+
+tak round kiya ja sakta hai.
+
+Isko Padding kehte hain.
+
+Final
+
+Tumhare object ka actual size kuch aisa ho sakta hai:
+
+Header        12 bytes
+Fields        24 bytes
+Padding        4 bytes
+-----------------------
+Total         40 bytes
+
+Ya kisi JVM mein
+
+Header        16
+Fields        24
+---------------
+40 bytes

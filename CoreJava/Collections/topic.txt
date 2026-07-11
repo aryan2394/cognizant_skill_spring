@@ -1,0 +1,9 @@
+              Object
+                 ↑
+             Iterable
+                 ↑
+            Collection
+        /        |        \
+      List     Queue      Set
+
+Map (Alag Framework hai) ->Map is not a part of Collection framework 

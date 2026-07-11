@@ -1,0 +1,105 @@
+Bahut badhiya. Tumne static variable → static method → static block samajh liya. Ab naturally agla topic hai final keyword.
+
+Isko bhi hum "Why?" se samjhenge.
+
+Final Keyword (Why Final Came?)
+Pehle Problem Samajhte Hain
+
+Maan lo hamare paas ek Student class hai.
+
+class Student {
+
+    static String college = "IIT Guwahati";
+
+}
+
+Ab koi bhi programmer kabhi bhi iski value change kar sakta hai.
+
+Student.college = "IIT Delhi";
+
+Ya
+
+Student.college = "NIT Trichy";
+
+Ab socho.
+
+Ye sahi hai?
+
+❌ Nahi.
+
+College agar fixed hai to usko koi change hi nahi karna chahiye.
+
+Java ne isi problem ko solve karne ke liye diya
+
+final Keyword
+Meaning of final
+
+Final ka simple matlab hai:
+
+"Ek baar value assign ho gayi, uske baad change nahi ho sakti."
+
+1. Final Variable
+Without final
+int age = 20;
+
+age = 25;
+
+✔ Allowed
+
+With final
+final int age = 20;
+
+age = 25;
+
+❌ Compile Time Error
+
+Output
+
+Cannot assign a value to final variable
+Example
+public class Demo {
+
+    public static void main(String[] args) {
+
+        final double PI = 3.14159;
+
+        System.out.println(PI);
+
+    }
+
+}
+
+Output
+
+3.14159
+
+Agar
+
+PI = 4;
+
+likh diya
+
+❌ Error.
+
+Final Static Variable
+
+Ye bahut common combination hai.
+
+class Student {
+
+    static final String COLLEGE = "IIT Guwahati";
+
+}
+
+Ab
+
+Student.COLLEGE = "IIT Delhi";
+
+❌ Error
+
+Kyuki
+
+static → Class ki property
+final → Change nahi ho sakti
+
+Ye combination constants banane ke liye use hota hai.

@@ -1,0 +1,260 @@
+1. Single Inheritance ⭐ (Sabse Simple)
+
+Ek parent aur ek child.
+
+Person
+   │
+   ▼
+Student
+
+Code
+
+class Person {
+
+    void display() {
+        System.out.println("I am Person");
+    }
+
+}
+
+class Student extends Person {
+
+    void study() {
+        System.out.println("Studying");
+    }
+
+}
+
+Use
+
+Student s = new Student();
+
+s.display();   // Parent Method
+s.study();     // Child Method
+Real Life
+Animal
+   │
+   ▼
+Dog
+
+Dog ek Animal hai.
+
+2. Multilevel Inheritance
+
+Ek child kisi aur class ka parent ban jaye.
+
+Person
+   │
+   ▼
+Student
+   │
+   ▼
+Monitor
+
+Code
+
+class Person {
+
+    void walk() {
+        System.out.println("Walking");
+    }
+
+}
+
+class Student extends Person {
+
+    void study() {
+        System.out.println("Studying");
+    }
+
+}
+
+class Monitor extends Student {
+
+    void manageClass() {
+        System.out.println("Managing Class");
+    }
+
+}
+
+Use
+
+Monitor m = new Monitor();
+
+m.walk();          // From Person
+m.study();         // From Student
+m.manageClass();   // Own Method
+
+Notice
+
+Monitor ko
+
+Person ki properties
+Student ki properties
+Apni properties
+
+sab mil gayi.
+
+3. Hierarchical Inheritance
+
+Ek parent ke bahut saare children.
+
+          Person
+        /    |     \
+       ▼     ▼      ▼
+  Student Teacher Doctor
+
+Code
+
+class Person {
+
+    void display() {
+        System.out.println("I am Person");
+    }
+
+}
+
+class Student extends Person {
+
+}
+
+class Teacher extends Person {
+
+}
+
+class Doctor extends Person {
+
+}
+
+Use
+
+Student s = new Student();
+Teacher t = new Teacher();
+Doctor d = new Doctor();
+
+s.display();
+t.display();
+d.display();
+
+Teenon ko display() mil gaya.
+
+4. Multiple Inheritance ❌ (Java Classes me Allowed Nahi)
+
+Suppose
+
+Father       Mother
+    \          /
+     \        /
+       Child
+
+Code (Agar Java allow karta)
+
+class Father {
+
+    void property() {
+
+    }
+
+}
+
+class Mother {
+
+    void property() {
+
+    }
+
+}
+
+class Child extends Father, Mother {
+
+}
+
+❌ Java me ye syntax hi invalid hai.
+
+Java ne isko kyon mana kiya?
+Diamond Problem
+        Animal
+        /    \
+       ▼      ▼
+   Lion      Tiger
+       \      /
+        ▼    ▼
+       Liger
+
+Maan lo
+
+Animal me method hai
+
+void sound()
+
+Lion bhi sound() override karta hai.
+
+Tiger bhi sound() override karta hai.
+
+Ab Liger ne agar dono ko inherit kiya.
+
+Question:
+
+Jab hum likhenge
+
+liger.sound();
+
+Toh kaunsa sound() chalega?
+
+Lion wala?
+Tiger wala?
+
+Java confuse ho jayegi.
+
+Is confusion ko Diamond Problem kehte hain.
+
+Isliye Java ne bola:
+
+Ek class sirf ek hi class ko extend karegi.
+
+Lekin Multiple Inheritance bilkul nahi hai?
+
+Hai.
+
+Interfaces ke through.
+
+interface A {
+
+}
+
+interface B {
+
+}
+
+class C implements A, B {
+
+}
+
+Ye allowed hai.
+
+Iska reason tum Interfaces padhoge tab samajh aayega.
+
+Hybrid Inheritance
+
+Hybrid matlab
+
+Do ya do se zyada inheritance types ka combination.
+
+Example
+
+        Person
+       /      \
+      ▼        ▼
+ Student     Teacher
+      │
+      ▼
+ Monitor
+
+Isme
+
+Hierarchical bhi hai.
+Multilevel bhi hai.
+
+Java me classes ke through Hybrid directly support nahi hoti, kyunki usme multiple inheritance ki situation aa sakti hai.
+
+Interfaces ke through possible hai.

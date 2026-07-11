@@ -1,0 +1,115 @@
+High Level Abstraction:matlab ki sepearating the HOW from WHAT 
+
+matlab ki humko sepearate karna hai ki koi function ya task kaise kaam karta hai from what
+
+matlab ki humko function ko jo kaam karta hai and wo function ka logic jo hai usko alag karna  hai
+
+ek cheez agar hum dhyaan de toh class and object is tightly coupled matlab 
+
+
+example:
+class Car{
+    void start(){...   .}
+    void brake(){... .}
+}
+main()
+{
+    Car suzuki=new Car();
+    Car honda=new Car();
+    Car mahindra=nee Car();
+    suzuki.start();
+    honda.start();
+    mahindra.start();
+
+    // sab saare car object mein hi start wale ka function same hai matlab ki hum chahe suzuki obejct ,honda object car ya mahindra car obejct banaye wo baar ek hi function call 
+    //karega lekin sab gaadi ka start karne ka tareeka alag hoga 
+
+    like fuel gaadi and water gaadi ya electric car sabmein gaadi start hogi lekin usko start karne ka method same hi hai 
+
+    lekin actual mein har gaadi ko start karne tarreka alag hoga 
+}
+
+
+how to implenenated it:
+1:abstract class:
+
+humra main objective hai har ek object jo hai wo jab function ko call karein toh wo har baar function same call n karein matlab ki 
+
+humein chahiye ki ek upar class ho and jo isko class inherit karein jaise Car class ko FuelCar and ElecetricCar and DieselCar wo apne start(),brake() and 
+saare function define karein 
+
+normal class :
+class Car{
+    void generalMethod()
+    {
+        //something that is common to all method and ye method same hai for all the class isko koi inherit class se matlab nahi hai 
+
+    }
+    void start(){}
+    //only defination no declaration
+
+    void brake(){}
+    //only defination no declaration
+
+}
+
+class FuelCar extends Car{
+    void start()
+    {
+        //define the function jo ki uar hai aapnse usko implment kiya hai 
+    }
+    void brake()
+    {
+        //define the function jo ki uar hai aapnse usko implment kiya hai 
+
+    }
+}
+
+lekin abhi humare Car class mein dikkat hai kya ek method aapne banaya hai and agar aapne usko define nahi kiya hai toh 
+ye error de dega isliye humien unn saare methods jo declare hai lekin define nahi hai usse humein 
+declare karna padega 
+
+isliye humein unn saare function jaise void brake() and void start() 
+
+ke aage abstract void brak() and abstract void start() 
+likhan hoga and ek normal class mein abstarct mein nahi ho sakta hai kyon?
+
+maanlo ek Car bhi toh class hai ''
+
+humne CAR C=new Car()
+c.start()
+//call kar diya hai toh wo error dega beacuse wo bolega ki aapne toh function hi declare hi nahi kiya hai isliye uss class ka toh ab object banana hi possible nahi hai 
+
+isliye hum usko class ko abstarct kar denge taaki iske object banan possible n ho 
+
+CORRECT code 
+
+abstract class Car{
+    void fnc()
+    {
+        System.out.print("general function)
+    }
+    abstract void start(){};
+    abstract void brak(){};
+}
+class FuelCar extends Car{
+    void start()
+    {
+        System.out.print("fuel car stared");
+    }
+    void brak()
+    {
+        System.out.print("fule car brake)
+    }
+}
+
+
+2:interface: "matlab second implenation of Abstraction is through interface 
+
+interface ka syntex bilkul class ya abstract class ki tarah hi hota hai 
+
+buss kuch cheezein change jaise jap aap class ko inheri karte ho toh likhte ho extends and jab interafce ko inherit karoge toh implements
+abstract class meein normal methds hum bana sakte hai and abstarct methods honge lekin sirf declaration not defination
+but interface mein koi bhi normal method nahi hota saare methods honge wo sirf define honge toh jo bhi class usko inherit karegi using implents wo usko define karegi 
+
+

@@ -1,0 +1,125 @@
+Java me Abstraction ki zarurat hi kyon padi?
+Maan lo tumhare paas ek Car hai.
+
+Tum roz car chalate ho.
+
+Car start kaise karte ho?
+
+Insert Key
+
+↓
+
+Start Engine
+
+↓
+
+Drive
+Question:
+
+Kya tumhe pata hai engine ke andar
+
+Fuel injection kaise ho raha hai?
+
+Spark plug kaise kaam kar raha hai?
+
+Piston kaise move kar raha hai?
+
+Gearbox internally kya kar raha hai?
+
+❌ Nahi.
+
+Phir bhi tum car chala lete ho.
+
+Kyon?
+Kyuki car ne tumse implementation hide kar di hai.
+
+Sirf buttons diye.
+
+Accelerator
+
+Brake
+
+Steering
+Yahi hai Abstraction.
+
+Definition
+Abstraction means hiding the implementation details and showing only the essential features to the user.
+
+Simple Hindi me:
+
+User ko sirf "kya karna hai" dikhana, "kaise ho raha hai" chhupa dena.
+
+Ek Aur Example (ATM)
+Tum ATM me jaate ho.
+
+Tum kya karte ho?
+
+Insert Card
+
+↓
+
+Enter PIN
+
+↓
+
+Withdraw
+Question:
+
+Kya tum dekhte ho
+
+Database kaise connect hua?
+
+Balance kaise check hua?
+
+Server se data kaise aaya?
+
+❌ Nahi.
+
+ATM ne sab hide kar diya.
+
+Mobile Example
+Phone me
+
+Call Button
+dabate ho.
+
+Kya tumhe pata hai
+
+Signal tower se kaise gaya?
+
+Voice packets kaise transfer hue?
+
+Network protocol kya hai?
+
+❌ Nahi.
+
+Tumhe sirf
+
+Call()
+dikh raha hai.
+
+Programming me Abstraction
+Maan lo tum ek Payment App bana rahe ho.
+
+User ko sirf
+
+Pay ₹500
+button dikhna chahiye.
+
+Uske peeche
+
+OTP Verification
+
+Bank Connection
+
+API Call
+
+Database Update
+
+SMS
+
+Ye sab user ko dikhana zaruri hai?
+
+❌ Nahi.
+
+Ye sab implementation hai.

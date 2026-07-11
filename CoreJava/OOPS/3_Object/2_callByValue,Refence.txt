@@ -1,0 +1,92 @@
+call by value :ismein jo value hoti hai wo actual nahi jaati hai because jab hum primitive data types ki value bhejte hai toh wo as a copy jaati hai
+
+public class Demo {
+    public static void main(String args[])
+    {
+        int x=4;
+        int y=5;
+        System.out.println("x is "+x);
+        System.out.println("y is "+y);
+        fnc(x,y);
+        System.out.println("x is "+x);
+        System.out.println("y is "+y);
+    }
+    public static void fnc(int x,int y)
+    {
+        x=x+10;
+        y=y+10;
+    }
+}
+
+// output is 
+
+// x is 4
+// y is 5
+// x is 4
+// y is 5
+
+
+call by refenecen:
+
+public class Demo {
+    public static void main(String args[])
+    {
+        Random r=new Random(4,5);
+        System.out.println("x is "+r.x);
+        System.out.println("y is "+r.y);
+        fnc(r);
+        System.out.println("x is "+r.x);
+        System.out.println("y is "+r.y);
+    }
+    public static void fnc(Random r)
+    {
+        r.x=r.x+10;
+        r.y=r.y+10;
+    }
+}
+
+class Random{
+    int x;
+    int y;
+    Random(int x,int y)
+    {
+        this.x=x;
+        this.y=y;
+    }
+}
+
+// output is
+
+// x is 4
+// y is 5
+// x is 14
+// y is 15
+
+toh java is call by value ya call by refenecen?
+
+java is call by value hamesha c,c++ mein jo ye hai wo call by value,refenecen dono hota hai 
+
+but valye toh object ki change ho rahai hai toh kaise java is call by value 
+
+dekho jab aap paas karte ho value in call by value primitive data types ki toh wo as a copy jaati hai 
+
+matlab jo function value acaept karta hai wo bolta hai jaise abhi tumne mujhe x=4 and y=5 paas kiya hai waise hi mein x=4 and y=5 naya variable banaunga lekin value jo tum store kiye ho wahi rakumga
+
+toh x=4 and y=5 jab hum x+=10 and y+=10 toh wo toh naya value bana hai is liye output change nahi hua function execute hone ke baad wo stack se bhi gaya aise bhi 
+
+
+
+lekin jab aap paas karte ho value in call by value object ki toh wo as a reference jaati hai 
+
+toh ye toh refenecen jaa rahi hai n 
+
+nahi actually kya hita hai ki toh ye bhi bola hai Random R1=new Random(4,5)
+toh R1.x=4 and R1.y=5 ab jab ye fuction pass huwa hai toh jo function recieve karega wo bolega ki jo tumhare paas hai wahi mein bhi lunga 
+
+toh R1 toh ek reference variable hai jo bhi heap memory mein uss object ka address store kiya hai ussi ko refer kar raha hai 
+
+toh jab wo function change karta hai x and y ki value toh wo bhi toh smae address ko hi point kar raha hai is liye object ki value change ho jaati hai  
+
+toh actually object aur non primitive data types bhi paas by value hi jaate hai lekin wo aapko lagata hai ki wo call by refenecen ja rahe hai 
+
+as a reference matlab kya hai reference matalb hota hai memory address 

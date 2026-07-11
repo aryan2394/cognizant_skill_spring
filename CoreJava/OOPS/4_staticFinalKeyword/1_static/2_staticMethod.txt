@@ -1,0 +1,385 @@
+Static Method (Why Static Methods Came?)
+Pehle normal method dekhte hain
+class Student {
+
+    String name;
+    int age;
+    int rollNo;
+
+    void markAttendance() {
+        System.out.println(name + " Present");
+    }
+
+}
+
+Ab
+
+Student s1 = new Student();
+Student s2 = new Student();
+
+s1.markAttendance();
+s2.markAttendance();
+
+Ye bilkul sahi hai.
+
+Kyun?
+
+Kyuki attendance har student ki alag hai.
+
+Aryan Present
+Rahul Present
+
+Matlab
+
+Ye method object ke data par kaam kar raha hai.
+
+Lekin har method object se related nahi hota
+
+Maan lo
+
+class Student {
+
+    static void printCollegeName() {
+        System.out.println("IIT Guwahati");
+    }
+
+}
+
+Ab socho.
+
+Is method ko chalane ke liye
+
+Student s1 = new Student();
+
+banana zaruri hai?
+
+❌ Nahi.
+
+Kyuki
+
+Method ko kisi bhi student ki
+
+name
+age
+roll
+
+ki zarurat hi nahi hai.
+
+Ye sirf
+
+"IIT Guwahati"
+
+print kar raha hai.
+
+Toh object kyon banaye?
+
+Isi liye
+
+Student.printCollegeName();
+
+call kar dete hain.
+
+Static Method kiski property hota hai?
+
+Jaise
+
+static String college;
+
+class ki property thi.
+
+Waise hi
+
+static void printCollegeName()
+
+bhi class ki property hai.
+
+Ye kisi object ka method nahi hai.
+
+Ye poori class ka method hai.
+
+Example
+class Student {
+
+    static void welcome() {
+
+        System.out.println("Welcome to IIT Guwahati");
+
+    }
+
+}
+
+Call
+
+Student.welcome();
+
+Object ki zarurat hi nahi.
+
+Static Method ko Object se bhi Call Kar Sakte Hain?
+
+Haan.
+
+Student s = new Student();
+
+s.welcome();
+
+Ye compile ho jayega.
+
+Lekin recommended nahi hai.
+
+Best Practice
+
+Student.welcome();
+
+Kyuki
+
+Method class ka hai.
+
+Object ka nahi.
+
+Static Method kis time banta hai?
+
+Jaise hi
+
+Student Class
+
+JVM mein load hoti hai.
+
+Usi time
+
+static variable
+static method
+
+dono ready ho jaate hain.
+
+Object banane ki zarurat nahi.
+
+Static Method ki Sabse Important Rules
+Rule 1
+Static Method Static Variable ko Direct Access Kar Sakta Hai.
+class Student {
+
+    static String college = "IIT Guwahati";
+
+    static void printCollege() {
+
+        System.out.println(college);
+
+    }
+
+}
+
+✔ Correct
+
+Kyuki
+
+Dono class ke members hain.
+
+Rule 2
+Static Method Direct Instance Variable Access Nahi Kar Sakta.
+class Student {
+
+    String name;
+
+    static void printName() {
+
+        System.out.println(name);
+
+    }
+
+}
+
+❌ Error
+
+Kyun?
+
+Socho.
+
+Static method
+
+Student.printName();
+
+aise call ho sakta hai.
+
+Tab
+
+name
+
+kis student ka print kare?
+
+Aryan?
+
+Rahul?
+
+Rohit?
+
+JVM confuse ho jayegi.
+
+Isi liye
+
+Direct access allowed nahi.
+
+Agar Access Karna Ho
+
+Object banana padega.
+
+class Student {
+
+    String name;
+
+    static void printName() {
+
+        Student s = new Student();
+
+        System.out.println(s.name);
+
+    }
+
+}
+
+Ab s.name kis object ka hai?
+
+Jo object tumne banaya.
+
+Isliye allowed.
+
+Rule 3
+Static Method Direct Non-static Method ko Call Nahi Kar Sakta.
+class Student {
+
+    void display() {
+
+    }
+
+    static void print() {
+
+        display();
+
+    }
+
+}
+
+❌ Error
+
+Kyun?
+
+Non-static method kisi object ka hota hai.
+
+Static method ke paas koi object hi nahi.
+
+Agar Call Karna Ho
+class Student {
+
+    void display() {
+
+    }
+
+    static void print() {
+
+        Student s = new Student();
+
+        s.display();
+
+    }
+
+}
+
+✔ Correct
+
+Rule 4
+Static Method ke andar this Keyword nahi hota.
+class Student {
+
+    static void demo() {
+
+        System.out.println(this);
+
+    }
+
+}
+
+❌ Error
+
+Kyun?
+
+this
+
+matlab
+
+Current Object
+
+Lekin
+
+Static method
+
+Object ke bina bhi chal sakta hai.
+
+Toh
+
+Current object hai hi nahi.
+
+Isliye
+
+this
+
+exist hi nahi karta.
+
+Static Method ka Real-Life Example
+
+Sabse famous static method
+
+public static void main(String args[])
+
+Ye static kyon hai?
+
+Jab program start hota hai,
+
+abhi tak
+
+Demo obj = new Demo();
+
+banaya hi nahi gaya.
+
+Toh JVM ko koi method chahiye jo
+
+object ke bina hi chal sake.
+
+Isi liye
+
+main()
+
+ko static banaya gaya.
+
+JVM directly call karti hai:
+
+Demo.main(args);
+
+Object banane ki zarurat nahi padti.
+
+Static Method Kab Banate Hain?
+
+Jab method:
+
+Kisi object ke data par depend na kare.
+Sirf class-level ka kaam kare.
+Utility function ho.
+Common operation perform kare.
+
+Examples:
+
+Math.max(10, 20);
+Math.sqrt(25);
+Integer.parseInt("123");
+Arrays.sort(arr);
+
+Ye sab static methods hain, kyunki inhe chalane ke liye object ki zarurat nahi hoti.
+
+⭐ Golden Rule (Interview Trick)
+
+Static Method belongs to the Class, not to any Object.
+
+Isliye:
+
+Object ke bina call ho sakta hai.
+Direct sirf static members ko access kar sakta hai.
+Non-static members ko access karne ke liye pehle object banana padta hai.
+this keyword use nahi kar sakta, kyunki static method ke paas current object hota hi nahi.

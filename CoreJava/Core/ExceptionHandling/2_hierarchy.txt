@@ -1,0 +1,146 @@
+Throwable
+│
+├── Error
+│
+└── Exception
+      │
+      ├── Methods
+      │     • getMessage()
+      │     • printStackTrace()
+      │     • toString()
+      │
+      ├── Checked Exceptions
+      │     • IOException
+      │     • SQLException
+      │     • ClassNotFoundException
+      │     • ...
+      │
+      └── RuntimeException (Unchecked)
+            • NullPointerException
+            • ArithmeticException
+            • IndexOutOfBoundsException
+            • IllegalArgumentException
+            • IllegalStateException
+            • ClassCastException
+            • ...
+
+Throwable is the root class of Java's exception hierarchy.
+It has two direct subclasses:
+Error → Serious JVM/system errors (generally not handled).
+Exception → Conditions that applications can handle.
+Exception is divided into:
+Checked Exceptions → Must be handled (try-catch) or declared using throws.
+Unchecked Exceptions (RuntimeException) → Handling is optional; they usually occur because of programming mistakes.
+
+Easy Rule (Interview Point ⭐)
+
+Multiple catch blocks are always written from the most specific exception (child) to the most general exception (parent).
+
+Reason:
+
+JVM first matching catch execute karti hai.
+Agar parent pehle likh diya, to child exception kabhi us tak pahunch hi nahi payegi.
+Isliye compiler usse unreachable code maan kar compile-time error de deta hai.
+
+Example
+try {
+    int a = 5;
+    int b = 0;
+
+    System.out.println(a / b);
+}
+catch (ArithmeticException e) {
+    System.out.println("Divide by zero is not allowed");
+}
+catch (RuntimeException e) {
+    System.out.println("Runtime Exception");
+}
+catch (Exception e) {
+    System.out.println("Generic Exception");
+}
+Flow
+
+Suppose exception aayi:
+
+ArithmeticException
+
+Hierarchy:
+
+Throwable
+    │
+Exception
+    │
+RuntimeException
+    │
+ArithmeticException
+
+JVM pehle first catch dekhegi.
+
+Kya ArithmeticException match karta hai? ✅ Yes
+To yehi block execute hoga.
+Baaki catch blocks skip ho jayenge.
+Agar ulta likh diya
+try {
+    System.out.println(5 / 0);
+}
+catch (Exception e) {
+    System.out.println("Generic Exception");
+}
+catch (ArithmeticException e) {
+    System.out.println("Divide by zero");
+}
+
+Ye compile hi nahi hoga.
+
+Compiler error:
+
+Unreachable catch block for ArithmeticException.
+It is already handled by the catch block for Exception.
+Kyon?
+
+Kyuki Exception parent hai.
+
+Wo ArithmeticException ko bhi catch kar leta hai.
+
+Flow:
+
+ArithmeticException
+        │
+        ▼
+catch(Exception e)   ✅ Match
+        │
+Program yahin aa gaya
+        │
+catch(ArithmeticException) ❌ Kabhi execute hi nahi hoga
+
+Isliye second catch unreachable ho gaya.
+
+Isliye order hamesha
+Child Exception
+      ↓
+Parent Exception
+      ↓
+Grand Parent Exception
+
+Ya hierarchy ke hisaab se:
+
+ArithmeticException
+        ↓
+RuntimeException
+        ↓
+Exception
+        ↓
+Throwable
+
+Aur code:
+
+try {
+    // risky code
+}
+catch (ArithmeticException e) {
+}
+catch (RuntimeException e) {
+}
+catch (Exception e) {
+}
+
