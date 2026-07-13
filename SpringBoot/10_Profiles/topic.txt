@@ -1,0 +1,361 @@
+Imagine a Simple Spring Boot Application
+
+Maan lo tumne ek Spring Boot application banayi hai.
+
+Usme MySQL database use ho raha hai.
+
+Tumhare application.properties mein likha hai:
+
+spring.datasource.url=jdbc:mysql://localhost:3306/studentdb
+spring.datasource.username=root
+spring.datasource.password=root
+
+Ye perfectly kaam kar raha hai tumhare laptop par.
+
+Now Company mein kya hota hai?
+
+Ek application sirf tumhare laptop par nahi chalti.
+
+Uske multiple environments hote hain.
+
+Developer Laptop
+        ↓
+Testing Server
+        ↓
+Staging Server
+        ↓
+Production Server
+
+Har environment ka purpose alag hota hai.
+
+Environment 1 : Development
+
+Ye tumhara laptop hai.
+
+Database
+
+localhost
+
+Configuration
+
+spring.datasource.url=jdbc:mysql://localhost:3306/studentdb
+
+Sab kuch local.
+
+Environment 2 : Testing
+
+Ab QA team application test karegi.
+
+Unke paas alag database hai.
+
+Database
+
+testing.company.com
+
+Ab configuration ban gayi
+
+spring.datasource.url=jdbc:mysql://testing.company.com/studentdb
+Environment 3 : Production
+
+Ab application live ho gayi.
+
+Lakho users use karenge.
+
+Database
+
+prod.company.com
+
+Configuration
+
+spring.datasource.url=jdbc:mysql://prod.company.com/studentdb
+Problem Starts Here
+
+Sirf database hi nahi badalta.
+
+Bahut saari cheezein environment ke according change hoti hain.
+
+For example
+
+Database
+
+Development
+
+localhost
+
+Production
+
+prod.company.com
+Logging
+
+Development
+
+logging.level.root=DEBUG
+
+Taaki debugging easy ho.
+
+Production
+
+logging.level.root=ERROR
+
+Kyuki production mein unnecessary logs nahi chahiye.
+
+API URL
+
+Development
+
+https://dev-api.company.com
+
+Production
+
+https://api.company.com
+Email
+
+Development
+
+Dummy Email Server
+
+mailtrap.io
+
+Production
+
+Real Gmail SMTP
+
+smtp.gmail.com
+Payment Gateway
+
+Development
+
+Fake payment
+
+Razorpay Sandbox
+
+Production
+
+Real payment
+
+Razorpay Live
+Agar Profiles na hote...
+
+Har baar deployment se pehle tumhe manually ye sab change karna padta.
+
+application.properties
+
+Today
+
+spring.datasource.url=localhost
+
+Tomorrow
+
+spring.datasource.url=testing.company.com
+
+Next day
+
+spring.datasource.url=prod.company.com
+
+Fir wapas development karna hai
+
+spring.datasource.url=localhost
+
+Har baar file edit karo.
+
+Isme kya problem hai?
+
+Suppose tum production mein deploy karne wale ho.
+
+Galti se tum bhool gaye database change karna.
+
+Production application connect ho gayi
+
+localhost
+
+Obviously production server ke paas tumhara local database nahi hai.
+
+Application crash.
+
+Ya fir aur dangerous situation.
+
+Tum production database ko point kar dete ho.
+
+Fir local machine se testing karte waqt real production database mein data insert ho jata hai.
+
+Imagine:
+
+Tum test kar rahe ho
+
+Delete All Students
+
+Aur wo production database se connect tha.
+
+Real users ka data delete ho sakta hai.
+
+Ye bahut serious mistake hai.
+
+To Solution Kya Chahiye Tha?
+
+Spring ne kaha:
+
+Configuration ko environment ke hisaab se alag files mein rakh do.
+
+Instead of one file
+
+application.properties
+
+Use
+
+application-dev.properties
+
+application-test.properties
+
+application-staging.properties
+
+application-prod.properties
+
+Aur sirf bata do
+
+Main kis environment mein chal raha hoon?
+
+Spring automatically sahi configuration load kar dega.
+
+Isi mechanism ko Spring Profiles kehte hain.
+
+
+
+What is a Spring Profile?
+
+A Profile is simply the name of an environment in which your application is running.
+
+Examples:
+
+dev
+test
+staging
+prod
+
+Think of it as a label that tells Spring:
+
+"Load the configuration and beans meant for this environment."
+
+For example:
+
+spring.profiles.active=dev
+
+Here, the active profile is dev.
+
+Spring understands:
+
+"I am running in the development environment."
+
+So it loads:
+
+application.properties
++
+application-dev.properties
+
+If you change it to:
+
+spring.profiles.active=prod
+
+Spring loads:
+
+application.properties
++
+application-prod.properties
+
+No Java code changes are required.
+
+What is the @Profile Annotation?
+
+So far, we've seen profiles used to load different configuration files.
+
+But what if you want to load different Java classes (beans) based on the environment?
+
+That's where @Profile comes in.
+
+It tells Spring:
+
+"Create this bean only if a specific profile is active."
+
+Example
+
+Suppose you have two email services.
+
+Development Email Service
+@Service
+@Profile("dev")
+public class FakeEmailService implements EmailService {
+
+    public void sendEmail() {
+        System.out.println("Fake Email Sent");
+    }
+}
+Production Email Service
+@Service
+@Profile("prod")
+public class RealEmailService implements EmailService {
+
+    public void sendEmail() {
+        System.out.println("Real Email Sent");
+    }
+}
+
+If
+
+spring.profiles.active=dev
+
+Spring creates:
+
+FakeEmailService
+
+and ignores
+
+RealEmailService
+
+If
+
+spring.profiles.active=prod
+
+Spring creates:
+
+RealEmailService
+
+and ignores
+
+FakeEmailService
+Why is this useful?
+
+Imagine a payment application.
+
+During development, you don't want to charge real money.
+
+So you create:
+
+@Profile("dev")
+FakePaymentService
+
+It simply prints:
+
+Payment Successful (Fake)
+
+In production:
+
+@Profile("prod")
+RealPaymentService
+
+It actually calls the payment gateway (e.g., Razorpay or Stripe).
+
+Same interface:
+
+public interface PaymentService {
+    void pay();
+}
+
+Different implementations:
+
+PaymentService
+     ↑
+ ┌──────────────┐
+ │              │
+FakePayment   RealPayment
+(dev)         (prod)
+
+Spring automatically injects the correct implementation based on the active profile.
