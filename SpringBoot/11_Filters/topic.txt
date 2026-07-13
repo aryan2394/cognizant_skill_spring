@@ -1,0 +1,321 @@
+First, what is a Filter?
+
+A Filter is a component that executes before the request reaches the Controller and can also execute after the Controller sends the response.
+
+Think of it as a security guard at the entrance of your application.
+
+Client
+   │
+   ▼
+Filter
+   │
+   ▼
+Dispatcher Servlet
+   │
+   ▼
+Controller
+   │
+   ▼
+Service
+   │
+   ▼
+Repository
+
+A filter can:
+
+Check authentication
+Log requests
+Add headers
+Validate requests
+Modify requests/responses
+Block requests
+
+How to create the filter and kaise pata chalega ki ye Controller se bhi pahle chalega
+
+@Component
+public class LoggingFilter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest servletRequest,
+                         ServletResponse servletResponse,
+                         FilterChain filterChain)
+            throws IOException, ServletException {
+
+        System.out.println("Request entered in Logging filter");
+
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
+}
+
+sabse pahle  LoggingFilter jo hai implemnts the filter interface and in filter has 3 method init,doFilter and destroy
+jsimein init and destroy not working hamehsa doFilter() hi working rehti hai
+
+doFilter has 3 parameters doFilter(ServletRequest servletRequest,
+                         ServletResponse servletResponse,
+                         FilterChain filterChain) 
+                         
+servletRequest and  
+servletResponse jo hai use karte hain apani requet ko handle karne ke liye and response ke liye 
+
+FilterChain filterChain :iska kaam hai jaise hota tha tha middleware mein next ki agla agar koi middleware hai handle the middleware and gar koi nhi hai toh routes pe chala jaata hai 
+
+ussi tarah ye bhi  filterChain.doFilter(servletRequest, servletResponse) ekk call se agle filter mein chla jaata hai and gar dusra filter nahi huwa then go to the servetDispatcher and then go to the controller
+
+Client
+   │
+   ▼
+Filter1
+   │
+   ▼
+Filter2
+   │
+   ▼
+Filter3
+   │
+   ▼
+DispatcherServlet
+
+                 REQUEST
+Client
+   │
+   ▼
+Filter1
+   │
+   ▼
+Filter2
+   │
+   ▼
+Filter3
+   │
+   ▼
+DispatcherServlet
+   │
+   ▼
+StudentController
+   │
+   ▼
+StudentService
+
+-------------------------------
+
+                RESPONSE
+
+StudentService
+   │
+   ▲
+StudentController
+   │
+   ▲
+DispatcherServlet
+   │
+   ▲
+Filter3
+   │
+   ▲
+Filter2
+   │
+   ▲
+Filter1
+   │
+   ▲
+Client
+
+During the Request → Client → Filter1 → Filter2 → Filter3 → DispatcherServlet → Controller → Service
+During the Response → Service → Controller → DispatcherServlet → Filter3 → Filter2 → Filter1 → Client
+
+Filters main resposnible is to:
+
+1:logging the request and response 
+2:authentication of the user 
+
+
+1. Logging (Sabse Common)
+
+Har request ko log karna.
+
+Suppose request aayi:
+
+GET /api/students
+
+Filter
+
+[10:30:20] GET /api/students
+
+Response
+
+Status : 200
+Time : 120ms
+Example
+long start = System.currentTimeMillis();
+
+filterChain.doFilter(request, response);
+
+long end = System.currentTimeMillis();
+
+System.out.println("Execution Time : " + (end-start));
+
+Companies use this for
+
+API Monitoring
+Debugging
+Performance Analysis
+2. Authentication (JWT Token Validation)
+
+Suppose request
+
+GET /api/students
+
+Header
+
+Authorization: Bearer eyJhbGc...
+
+Filter checks
+
+Is token present?
+
+↓
+
+Is token valid?
+
+↓
+
+Extract username
+
+↓
+
+Continue request
+
+If invalid
+
+401 Unauthorized
+
+Controller tak request nahi jayegi.
+
+Ye bahut common hai.
+
+3. Request ID Generation
+
+Har request ko unique ID dena.
+
+Example
+
+Request 1
+
+ID : 8ab123
+
+Request 2
+
+ID : xya982
+
+Filter
+
+UUID.randomUUID();
+
+Generate karega.
+
+Response mein bhi bhej sakta hai
+
+X-Request-ID : 8ab123
+
+Production mein logs search karna easy ho jata hai.
+
+
+How multiple filters execute? Who runs first? Who runs last?
+
+Isko ek example se samajhte hain.
+
+Suppose you have 3 filters
+LoggingFilter
+AuthenticationFilter
+RequestIdFilter
+
+Request
+
+GET /api/students
+
+Flow
+
+Client
+   │
+   ▼
+LoggingFilter
+   │
+   ▼
+AuthenticationFilter
+   │
+   ▼
+RequestIdFilter
+   │
+   ▼
+DispatcherServlet
+   │
+   ▼
+Controller
+
+Ab question hai
+
+Ye order decide kaun karta hai?
+
+Method 1: Using @Order
+
+Suppose
+
+@Component
+@Order(1)
+public class LoggingFilter implements Filter {
+}
+@Component
+@Order(2)
+public class AuthenticationFilter implements Filter {
+}
+@Component
+@Order(3)
+public class RequestIdFilter implements Filter {
+}
+
+Request order
+
+1
+
+↓
+
+2
+
+↓
+
+3
+
+means
+
+Logging
+
+↓
+
+Authentication
+
+↓
+
+RequestId
+Response order
+
+Ye reverse hota hai.
+
+Controller
+
+↓
+
+RequestId
+
+↓
+
+Authentication
+
+↓
+
+Logging
+
+↓
+
+Client
+
+Exactly stack ki tarah.
