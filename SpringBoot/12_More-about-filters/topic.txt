@@ -1,0 +1,23 @@
+humne abhi tak flow dekha ki ek filter ka flow kaisa hai but kya hum multiple filters ek saath use kar sakte hain iska kya hota hai ]
+
+Client
+   ↓
+Filter1
+   ↓
+Filter2
+   ↓
+Filter3
+   ↓
+DispatcherServlet
+   ↓
+Controller
+   ↓
+Service
+   ↓
+Repository
+
+Aaj hum request response ko modify karenege 
+
+Lets see sabse pahle response ko modify karne mein like humare paas rahta hai 
+in response header,status and body 
+
