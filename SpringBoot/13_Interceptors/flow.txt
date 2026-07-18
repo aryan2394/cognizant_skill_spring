@@ -1,0 +1,100 @@
+                          +----------------+
+                          |     Tomcat     |
+                          +----------------+
+                                   |
+                                   v
+                          +----------------------+
+                          |  DispatcherServlet   |
+                          +----------------------+
+                             |              |
+                             |              |
+                             v              v
+                     +----------------+   +----------------+
+                     | HandlerMapping |   | HandlerAdapter |
+                     +----------------+   +----------------+
+                             |                    |
+                             v                    |
+                     +----------------+           |
+                     |  preHandle()   |<----------+
+                     +----------------+
+                             |
+                             v
+                     +----------------+
+                     |  preHandle()   |
+                     +----------------+
+                             |
+                             v
+                  +---------------------------+
+                  |     StudentController     |
+                  |     createStudent()       |
+                  +---------------------------+
+                             |
+                             v
+                     +----------------+
+                     | postHandle()   |
+                     +----------------+
+                             |
+                             v
+                     +----------------+
+                     | postHandle()   |
+                     +----------------+
+                             |
+                             v
+                     +----------------------+
+                     | afterCompletion()    |
+                     +----------------------+
+                             |
+                             v
+                     +----------------------+
+                     | afterCompletion()    |
+                     +----------------------+
+
+---------------------------------------------------------
+
+HTTP Request
+
+POST /api/students
+Host: localhost:8080
+
+{
+    "id": 1,
+    "name": "Aditya"
+}
+
+---------------------------------------------------------
+
+Flow
+
+Client
+   |
+   v
+Tomcat
+   |
+   v
+DispatcherServlet
+   |
+   v
+HandlerMapping
+   |
+   v
+Interceptor.preHandle()
+   |
+   v
+Controller (createStudent())
+   |
+   v
+Interceptor.postHandle()
+   |
+   v
+Interceptor.afterCompletion()
+   |
+   v
+DispatcherServlet
+   |
+   v
+Tomcat
+   |
+   v
+Client (Response)
+
+
